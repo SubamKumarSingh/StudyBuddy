@@ -1,0 +1,3916 @@
+
+================================================================================
+FILE: App.css
+================================================================================
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+
+
+================================================================================
+FILE: App.jsx
+================================================================================
+
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import Landing from "./pages/Landing";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+
+import Dashboard from "./pages/Dashboard";
+import PDFs from "./pages/PDFs";
+import Study from "./pages/Study";
+import Analytics from "./pages/Analytics";
+// import Quizzes from "./pages/Quizzes";
+// import Settings from "./pages/Settings";
+
+import AuthLayout from "./layouts/AuthLayout";
+import AppLayout from "./layouts/AppLayout";
+
+import ProtectedRoute from "./routes/ProtectedRoute";
+import PublicRoute from "./routes/PublicRoute";
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+
+        {/* ================= PUBLIC ================= */}
+        <Route
+          path="/"
+          element={
+            <PublicRoute>
+              <Landing />
+            </PublicRoute>
+          }
+        />
+
+        {/* ================= AUTH ================= */}
+        <Route element={<AuthLayout />}>
+          <Route
+            path="/login"
+            element={
+              <PublicRoute>
+                <Login />
+              </PublicRoute>
+            }
+          />
+
+          <Route
+            path="/signup"
+            element={
+              <PublicRoute>
+                <Signup />
+              </PublicRoute>
+            }
+          />
+        </Route>
+
+        {/* ================= APP (PROTECTED) ================= */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <AppLayout />
+            </ProtectedRoute>
+          }
+        >
+          {/* Dashboard home */}
+          <Route index element={<Dashboard />} />
+
+          {/* PDFs (main entry point for studying) */}
+          <Route path="pdfs" element={<PDFs />} />
+
+          {/* Study is ALWAYS contextual */}
+          <Route path="study/:pdfId" element={<Study />} />
+
+          {/* Future pages */}
+          <Route path="analytics" element={<Analytics />} />
+          {/* <Route path="quizzes" element={<Quizzes />} /> */}
+          {/* <Route path="settings" element={<Settings />} /> */}
+        </Route>
+
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+
+================================================================================
+FILE: combined_output.txt
+================================================================================
+
+
+
+
+================================================================================
+FILE: index.css
+================================================================================
+
+/* :root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+} */
+@import "tailwindcss";
+
+
+
+================================================================================
+FILE: main.jsx
+================================================================================
+
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import { AuthProvider } from "./context/AuthContext";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import "./index.css";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+    <AuthProvider>
+      <App />
+    </AuthProvider>
+  </GoogleOAuthProvider>
+);
+
+
+
+================================================================================
+FILE: test.py
+================================================================================
+
+import os
+
+def extract_contents(root_folder, output_file="combined_output.txt"):
+    with open(output_file, "w", encoding="utf-8") as outfile:
+        for root, dirs, files in os.walk(root_folder):
+            for file in files:
+                file_path = os.path.join(root, file)
+
+                # Get relative path
+                relative_path = os.path.relpath(file_path, root_folder)
+
+                try:
+                    with open(file_path, "r", encoding="utf-8") as infile:
+                        content = infile.read()
+
+                    outfile.write(f"\n{'='*80}\n")
+                    outfile.write(f"FILE: {relative_path}\n")
+                    outfile.write(f"{'='*80}\n\n")
+                    outfile.write(content)
+                    outfile.write("\n\n")
+
+                except Exception as e:
+                    outfile.write(f"\n[Skipped file: {relative_path} | Reason: {e}]\n")
+
+    print(f"Extraction complete. Output saved to: {output_file}")
+
+
+if __name__ == "__main__":
+    folder_path = input("Enter folder path: ").strip()
+    extract_contents(folder_path)
+
+
+================================================================================
+FILE: api\axios.js
+================================================================================
+
+import axios from "axios";
+
+const api = axios.create({
+  baseURL: "http://127.0.0.1:8000/api",
+});
+
+// Attach token automatically
+api.interceptors.request.use((config) => {
+
+  const token = localStorage.getItem("access");
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return config;
+});
+
+export default api;
+
+
+
+================================================================================
+FILE: api\notes.js
+================================================================================
+
+import api from "./axios";
+
+export const fetchNotes = () => api.get("resources/notes/");
+
+export const addNote = (data) => api.post("resources/notes/", data);
+
+export const removeNote = (id) => api.delete(`resources/notes/${id}/`);
+
+
+[Skipped file: assets\code.jpg | Reason: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte]
+
+[Skipped file: assets\logo.png | Reason: 'utf-8' codec can't decode byte 0x89 in position 0: invalid start byte]
+
+================================================================================
+FILE: assets\react.svg
+================================================================================
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--logos" width="35.93" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 228"><path fill="#00D8FF" d="M210.483 73.824a171.49 171.49 0 0 0-8.24-2.597c.465-1.9.893-3.777 1.273-5.621c6.238-30.281 2.16-54.676-11.769-62.708c-13.355-7.7-35.196.329-57.254 19.526a171.23 171.23 0 0 0-6.375 5.848a155.866 155.866 0 0 0-4.241-3.917C100.759 3.829 77.587-4.822 63.673 3.233C50.33 10.957 46.379 33.89 51.995 62.588a170.974 170.974 0 0 0 1.892 8.48c-3.28.932-6.445 1.924-9.474 2.98C17.309 83.498 0 98.307 0 113.668c0 15.865 18.582 31.778 46.812 41.427a145.52 145.52 0 0 0 6.921 2.165a167.467 167.467 0 0 0-2.01 9.138c-5.354 28.2-1.173 50.591 12.134 58.266c13.744 7.926 36.812-.22 59.273-19.855a145.567 145.567 0 0 0 5.342-4.923a168.064 168.064 0 0 0 6.92 6.314c21.758 18.722 43.246 26.282 56.54 18.586c13.731-7.949 18.194-32.003 12.4-61.268a145.016 145.016 0 0 0-1.535-6.842c1.62-.48 3.21-.974 4.76-1.488c29.348-9.723 48.443-25.443 48.443-41.52c0-15.417-17.868-30.326-45.517-39.844Zm-6.365 70.984c-1.4.463-2.836.91-4.3 1.345c-3.24-10.257-7.612-21.163-12.963-32.432c5.106-11 9.31-21.767 12.459-31.957c2.619.758 5.16 1.557 7.61 2.4c23.69 8.156 38.14 20.213 38.14 29.504c0 9.896-15.606 22.743-40.946 31.14Zm-10.514 20.834c2.562 12.94 2.927 24.64 1.23 33.787c-1.524 8.219-4.59 13.698-8.382 15.893c-8.067 4.67-25.32-1.4-43.927-17.412a156.726 156.726 0 0 1-6.437-5.87c7.214-7.889 14.423-17.06 21.459-27.246c12.376-1.098 24.068-2.894 34.671-5.345a134.17 134.17 0 0 1 1.386 6.193ZM87.276 214.515c-7.882 2.783-14.16 2.863-17.955.675c-8.075-4.657-11.432-22.636-6.853-46.752a156.923 156.923 0 0 1 1.869-8.499c10.486 2.32 22.093 3.988 34.498 4.994c7.084 9.967 14.501 19.128 21.976 27.15a134.668 134.668 0 0 1-4.877 4.492c-9.933 8.682-19.886 14.842-28.658 17.94ZM50.35 144.747c-12.483-4.267-22.792-9.812-29.858-15.863c-6.35-5.437-9.555-10.836-9.555-15.216c0-9.322 13.897-21.212 37.076-29.293c2.813-.98 5.757-1.905 8.812-2.773c3.204 10.42 7.406 21.315 12.477 32.332c-5.137 11.18-9.399 22.249-12.634 32.792a134.718 134.718 0 0 1-6.318-1.979Zm12.378-84.26c-4.811-24.587-1.616-43.134 6.425-47.789c8.564-4.958 27.502 2.111 47.463 19.835a144.318 144.318 0 0 1 3.841 3.545c-7.438 7.987-14.787 17.08-21.808 26.988c-12.04 1.116-23.565 2.908-34.161 5.309a160.342 160.342 0 0 1-1.76-7.887Zm110.427 27.268a347.8 347.8 0 0 0-7.785-12.803c8.168 1.033 15.994 2.404 23.343 4.08c-2.206 7.072-4.956 14.465-8.193 22.045a381.151 381.151 0 0 0-7.365-13.322Zm-45.032-43.861c5.044 5.465 10.096 11.566 15.065 18.186a322.04 322.04 0 0 0-30.257-.006c4.974-6.559 10.069-12.652 15.192-18.18ZM82.802 87.83a323.167 323.167 0 0 0-7.227 13.238c-3.184-7.553-5.909-14.98-8.134-22.152c7.304-1.634 15.093-2.97 23.209-3.984a321.524 321.524 0 0 0-7.848 12.897Zm8.081 65.352c-8.385-.936-16.291-2.203-23.593-3.793c2.26-7.3 5.045-14.885 8.298-22.6a321.187 321.187 0 0 0 7.257 13.246c2.594 4.48 5.28 8.868 8.038 13.147Zm37.542 31.03c-5.184-5.592-10.354-11.779-15.403-18.433c4.902.192 9.899.29 14.978.29c5.218 0 10.376-.117 15.453-.343c-4.985 6.774-10.018 12.97-15.028 18.486Zm52.198-57.817c3.422 7.8 6.306 15.345 8.596 22.52c-7.422 1.694-15.436 3.058-23.88 4.071a382.417 382.417 0 0 0 7.859-13.026a347.403 347.403 0 0 0 7.425-13.565Zm-16.898 8.101a358.557 358.557 0 0 1-12.281 19.815a329.4 329.4 0 0 1-23.444.823c-7.967 0-15.716-.248-23.178-.732a310.202 310.202 0 0 1-12.513-19.846h.001a307.41 307.41 0 0 1-10.923-20.627a310.278 310.278 0 0 1 10.89-20.637l-.001.001a307.318 307.318 0 0 1 12.413-19.761c7.613-.576 15.42-.876 23.31-.876H128c7.926 0 15.743.303 23.354.883a329.357 329.357 0 0 1 12.335 19.695a358.489 358.489 0 0 1 11.036 20.54a329.472 329.472 0 0 1-11 20.722Zm22.56-122.124c8.572 4.944 11.906 24.881 6.52 51.026c-.344 1.668-.73 3.367-1.15 5.09c-10.622-2.452-22.155-4.275-34.23-5.408c-7.034-10.017-14.323-19.124-21.64-27.008a160.789 160.789 0 0 1 5.888-5.4c18.9-16.447 36.564-22.941 44.612-18.3ZM128 90.808c12.625 0 22.86 10.235 22.86 22.86s-10.235 22.86-22.86 22.86s-22.86-10.235-22.86-22.86s10.235-22.86 22.86-22.86Z"></path></svg>
+
+
+[Skipped file: assets\video1.mp4 | Reason: 'utf-8' codec can't decode byte 0xdc in position 52: invalid continuation byte]
+
+[Skipped file: assets\video2.mp4 | Reason: 'utf-8' codec can't decode byte 0xff in position 35: invalid start byte]
+
+[Skipped file: assets\profile-pictures\user1.jpg | Reason: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte]
+
+[Skipped file: assets\profile-pictures\user2.jpg | Reason: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte]
+
+[Skipped file: assets\profile-pictures\user3.jpg | Reason: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte]
+
+[Skipped file: assets\profile-pictures\user4.jpg | Reason: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte]
+
+[Skipped file: assets\profile-pictures\user5.jpg | Reason: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte]
+
+[Skipped file: assets\profile-pictures\user6.jpg | Reason: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte]
+
+================================================================================
+FILE: components\AIInsights.jsx
+================================================================================
+
+import { useEffect, useState } from "react";
+import api from "../api/axios";
+
+export default function AIInsights(){
+
+  const [insights,setInsights]=useState([]);
+
+  useEffect(()=>{
+
+    api.get("/analytics/insights/")
+      .then(res=>setInsights(res.data.insights));
+
+  },[]);
+
+  return(
+
+    <div className="bg-white p-6 rounded-xl shadow">
+
+      <h2 className="text-lg mb-4">
+        AI Study Insights
+      </h2>
+
+      <div className="space-y-3">
+
+        {insights.map((i,index)=>(
+
+          <div
+            key={index}
+            className="p-3 bg-orange-50 border border-orange-200 rounded-lg"
+          >
+
+            {i}
+
+          </div>
+
+        ))}
+
+      </div>
+
+    </div>
+
+  )
+
+}
+
+
+================================================================================
+FILE: components\FocusCard.jsx
+================================================================================
+
+import { useEffect, useState } from "react";
+import api from "../api/axios";
+
+export default function FocusCard() {
+  const [focus, setFocus] = useState(null);
+
+  useEffect(() => {
+    api.get("/ai/focus-state/")
+      .then(res => setFocus(res.data))
+      .catch(() => {});
+  }, []);
+
+  if (!focus) {
+    return (
+      <div className="bg-white rounded-3xl p-8 shadow border border-orange-100">
+        <p className="text-sm text-gray-400">Analyzing your study patterns…</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-white rounded-3xl p-8 shadow border border-orange-100">
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="text-lg font-semibold text-gray-800">
+          Focus Score
+        </h3>
+        <span className="text-3xl font-bold text-orange-500">
+          {focus.focus_score}
+        </span>
+      </div>
+
+      <p className="text-sm text-gray-600 mb-4">
+        {focus.explanation}
+      </p>
+
+      <div className="space-y-2 text-sm">
+        <div className="flex justify-between">
+          <span>Consistency</span>
+          <span>{focus.consistency}%</span>
+        </div>
+        <div className="flex justify-between">
+          <span>Engagement</span>
+          <span>{focus.engagement}%</span>
+        </div>
+        <div className="flex justify-between">
+          <span>Recency</span>
+          <span>{focus.recency}%</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+================================================================================
+FILE: components\FocusHistoryChart.jsx
+================================================================================
+
+import { useEffect, useState } from "react";
+import api from "../api/axios";
+
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer
+} from "recharts";
+
+export default function FocusHistoryChart(){
+
+  const [data,setData]=useState([]);
+
+  useEffect(()=>{
+
+    api.get("/analytics/focus-history/")
+      .then(res=>setData(res.data));
+
+  },[]);
+
+  return(
+
+    <div className="bg-white p-6 rounded-xl shadow">
+
+      <h2 className="text-lg mb-4">
+        Focus Over Time
+      </h2>
+
+      <ResponsiveContainer width="100%" height={250}>
+
+        <LineChart data={data}>
+
+          <XAxis dataKey="session"/>
+          <YAxis domain={[0,100]}/>
+          <Tooltip/>
+
+          <Line
+            type="monotone"
+            dataKey="focus"
+            stroke="#f97316"
+            strokeWidth={3}
+          />
+
+        </LineChart>
+
+      </ResponsiveContainer>
+
+    </div>
+
+  )
+
+}
+
+
+================================================================================
+FILE: components\NotesPanel.jsx
+================================================================================
+
+import { useState, useEffect } from "react";
+import { fetchNotes, addNote, removeNote } from "../api/notes";
+
+export default function NotesPanel() {
+
+  const [notes, setNotes] = useState([]);
+  const [newNote, setNewNote] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadNotes();
+  }, []);
+
+  const loadNotes = async () => {
+    try {
+      const res = await fetchNotes();
+      setNotes(res.data);
+    } catch (err) {
+      console.error("Failed to load notes", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAddNote = async () => {
+
+    if (!newNote.trim()) return;
+
+    const tempNote = {
+      id: Date.now(),
+      title: "Quick Note",
+      content: newNote,
+    };
+
+    // optimistic update
+    setNotes([tempNote, ...notes]);
+    setNewNote("");
+
+    try {
+      const res = await addNote({
+        title: "Quick Note",
+        content: tempNote.content,
+      });
+
+      setNotes((prev) =>
+        prev.map((n) => (n.id === tempNote.id ? res.data : n))
+      );
+
+    } catch (err) {
+      console.error(err);
+      loadNotes();
+    }
+  };
+
+  const handleDelete = async (id) => {
+
+    const prev = notes;
+
+    setNotes(notes.filter((n) => n.id !== id));
+
+    try {
+      await removeNote(id);
+    } catch (err) {
+      console.error(err);
+      setNotes(prev);
+    }
+  };
+
+  return (
+    <div className="bg-white/70 backdrop-blur-xl rounded-3xl p-8 shadow-md border border-orange-100 h-fit sticky top-10">
+
+      <h3 className="text-lg font-semibold text-gray-800 mb-6">
+        Notes
+      </h3>
+
+      {/* Add Note */}
+      <div className="mb-6">
+
+        <textarea
+          value={newNote}
+          onChange={(e) => setNewNote(e.target.value)}
+          placeholder="Write a quick note..."
+          className="w-full h-28 resize-none rounded-xl border border-orange-200 focus:border-orange-400 focus:ring-2 focus:ring-orange-200 outline-none p-4 text-sm text-gray-700 bg-white"
+        />
+
+        <button
+          onClick={handleAddNote}
+          className="mt-3 w-full py-3 rounded-xl bg-linear-to-r from-orange-500 to-red-500 text-white font-medium hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
+        >
+          Add Note
+        </button>
+
+      </div>
+
+      {/* Notes List */}
+      <div className="space-y-4 max-h-72 overflow-y-auto pr-1">
+
+        {loading && (
+          <p className="text-sm text-gray-400 text-center">
+            Loading notes...
+          </p>
+        )}
+
+        {!loading && notes.length === 0 && (
+          <p className="text-sm text-gray-400 text-center">
+            No notes yet
+          </p>
+        )}
+
+        {notes.map((note) => (
+
+          <div
+            key={note.id}
+            className="p-4 rounded-2xl bg-white border border-orange-100 shadow-sm hover:shadow-md transition"
+          >
+
+            <div className="flex justify-between items-start mb-2">
+
+              <h4 className="text-sm font-semibold text-gray-800">
+                {note.title}
+              </h4>
+
+              <button
+                onClick={() => handleDelete(note.id)}
+                className="text-xs text-red-400 hover:text-red-600"
+              >
+                Delete
+              </button>
+
+            </div>
+
+            <p className="text-sm text-gray-600 leading-relaxed">
+              {note.content}
+            </p>
+
+          </div>
+
+        ))}
+
+      </div>
+
+    </div>
+  );
+}
+
+
+================================================================================
+FILE: components\PedagogicalCard.jsx
+================================================================================
+
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../api/axios";
+
+export default function PedagogicalCard() {
+  const [decision, setDecision] = useState(null);
+  const [showWhy, setShowWhy] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    api.get("/ai/decision/")
+      .then(res => setDecision(res.data))
+      .catch(() => {});
+  }, []);
+
+  if (!decision) {
+    return (
+      <div className="bg-white rounded-3xl p-8 shadow border border-orange-100">
+        <p className="text-sm text-gray-400">
+          Thinking about your next step…
+        </p>
+      </div>
+    );
+  }
+
+  if (decision.type === "system") {
+    return (
+      <div className="bg-white rounded-3xl p-8 shadow border border-orange-100">
+        <h3 className="text-lg font-semibold mb-2">
+          Let’s get started
+        </h3>
+        <p className="text-gray-600 mb-4">
+          {decision.message}
+        </p>
+        <button
+          onClick={() => navigate("/dashboard/pdfs")}
+          className="px-6 py-3 rounded-xl bg-orange-500 text-white font-medium"
+        >
+          Add PDFs
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-white rounded-3xl p-8 shadow border border-orange-100 space-y-6">
+
+      {/* ===== HEADER ===== */}
+      <div>
+        <span className="inline-block px-3 py-1 text-xs font-medium bg-orange-100 text-orange-600 rounded-full mb-3">
+          Suggested next step
+        </span>
+
+        <h3 className="text-xl font-semibold text-gray-800">
+          {decision.message}
+        </h3>
+      </div>
+
+      {/* ===== PRIMARY ACTION ===== */}
+      <div className="flex items-center justify-between gap-4">
+        <p className="text-sm text-gray-500">
+          Based on your recent study patterns
+        </p>
+
+        <button
+          onClick={() =>
+            navigate(`/dashboard/study/${decision.pdf_id}`)
+          }
+          className="px-6 py-3 rounded-xl bg-linear-to-r from-orange-500 to-red-500 text-white font-semibold shadow-md hover:scale-[1.02] transition"
+        >
+          Open {decision.pdf_title}
+        </button>
+      </div>
+
+      {/* ===== WHY (EXPLAINABILITY) ===== */}
+      <div>
+        <button
+          onClick={() => setShowWhy(!showWhy)}
+          className="text-sm text-orange-600 hover:underline"
+        >
+          {showWhy ? "Hide reasoning" : "Why this suggestion?"}
+        </button>
+
+        {showWhy && (
+          <div className="mt-4 bg-orange-50 rounded-xl p-4 text-sm text-gray-700 space-y-2">
+            <div>
+              <strong>Learner state:</strong>{" "}
+              Focus {decision.learner_state.focus_level},{" "}
+              consistency {Math.round(decision.learner_state.consistency * 100)}%
+            </div>
+
+            <div>
+              <strong>Content:</strong>{" "}
+              {decision.content_state.difficulty} difficulty,{" "}
+              {decision.content_state.importance} importance
+            </div>
+
+            <div>
+              <strong>Strategy:</strong>{" "}
+              {decision.strategy.replace("_", " ")}
+            </div>
+          </div>
+        )}
+      </div>
+
+    </div>
+  );
+}
+
+
+================================================================================
+FILE: components\StudyHeatmap.jsx
+================================================================================
+
+import { useEffect, useState } from "react";
+import api from "../api/axios";
+
+export default function StudyHeatmap() {
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    api.get("/analytics/heatmap/")
+      .then(res => setData(res.data));
+  }, []);
+
+  return (
+
+    <div className="bg-white p-6 rounded-xl shadow">
+
+      <h2 className="text-lg mb-4">
+        Study Activity
+      </h2>
+
+      <div className="grid grid-cols-7 gap-2">
+
+        {data.map((d,i)=>{
+
+          const intensity =
+            d.minutes > 60 ? "bg-green-600" :
+            d.minutes > 30 ? "bg-green-400" :
+            d.minutes > 10 ? "bg-green-200" :
+            "bg-gray-100"
+
+          return (
+
+            <div
+              key={i}
+              className={`w-6 h-6 rounded ${intensity}`}
+              title={`${d.date} : ${d.minutes} minutes`}
+            />
+
+          )
+
+        })}
+
+      </div>
+
+    </div>
+
+  )
+}
+
+
+================================================================================
+FILE: components\StudySummary.jsx
+================================================================================
+
+// import { useEffect, useState } from "react";
+// import api from "../api/axios";
+
+// export default function StudySummary() {
+
+//   const [summary, setSummary] = useState(null);
+
+//   useEffect(() => {
+//     api.get("/tracking/summary/")
+//       .then(res => setSummary(res.data))
+//       .catch(err => console.error("Summary error", err));
+//   }, []);
+
+//   if (!summary) return <p>Loading summary...</p>;
+
+//   const formatTime = (seconds) => {
+//     const hrs = Math.floor(seconds / 3600);
+//     const mins = Math.floor((seconds % 3600) / 60);
+//     return `${hrs}h ${mins}m`;
+//   };
+
+//   return (
+//     <div style={{ border: "1px solid #ddd", padding: "15px", marginBottom: "20px" }}>
+//       <h2>Study Summary</h2>
+
+//       <p>
+//         <strong>Today:</strong>{" "}
+//         {formatTime(summary.today.effective_seconds)} ·{" "}
+//         {summary.today.sessions} sessions
+//       </p>
+
+//       <p>
+//         <strong>This Week:</strong>{" "}
+//         {formatTime(summary.this_week.effective_seconds)} ·{" "}
+//         {summary.this_week.sessions} sessions
+//       </p>
+//     </div>
+//   );
+// }
+
+import { useEffect, useState } from "react";
+import api from "../api/axios";
+
+export default function StudySummary() {
+
+  const [summary, setSummary] = useState(null);
+
+  useEffect(() => {
+    api.get("/tracking/summary/")
+      .then(res => setSummary(res.data))
+      .catch(err => console.error("Summary error", err));
+  }, []);
+
+  if (!summary) {
+    return (
+      <div className="grid sm:grid-cols-2 gap-6 mb-10">
+        <div className="h-32 rounded-3xl bg-orange-100 animate-pulse"></div>
+        <div className="h-32 rounded-3xl bg-orange-100 animate-pulse"></div>
+      </div>
+    );
+  }
+
+  const formatTime = (seconds) => {
+    const hrs = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
+    return `${hrs}h ${mins}m`;
+  };
+
+  return (
+    <div className="grid sm:grid-cols-2 gap-8 mb-10">
+
+      {/* TODAY CARD */}
+      <div className="relative bg-white rounded-3xl p-8 shadow-md border border-orange-100 hover:shadow-xl transition overflow-hidden group">
+
+        {/* Glow Accent */}
+        <div className="absolute -top-16 -right-16 w-40 h-40 bg-orange-400 opacity-10 rounded-full blur-3xl group-hover:opacity-20 transition"></div>
+
+        <div className="relative">
+          <p className="text-sm text-gray-500 mb-2">
+            Today
+          </p>
+
+          <h2 className="text-4xl font-bold text-gray-800">
+            {formatTime(summary.today.effective_seconds)}
+          </h2>
+
+          <p className="mt-3 text-sm text-orange-600 font-medium">
+            {summary.today.sessions} sessions completed
+          </p>
+        </div>
+
+      </div>
+
+      {/* WEEK CARD */}
+      <div className="relative bg-linear-to-br from-orange-500 to-red-500 text-white rounded-3xl p-8 shadow-xl hover:scale-[1.02] transition">
+
+        <p className="text-sm text-orange-100 mb-2">
+          This Week
+        </p>
+
+        <h2 className="text-4xl font-bold">
+          {formatTime(summary.this_week.effective_seconds)}
+        </h2>
+
+        <p className="mt-3 text-sm text-orange-100">
+          {summary.this_week.sessions} sessions completed
+        </p>
+
+      </div>
+
+    </div>
+  );
+}
+
+
+================================================================================
+FILE: components\StudyTracker.jsx
+================================================================================
+
+// import { useEffect, useState } from "react";
+// import api from "../api/axios";
+// import { useIdleTimer } from "react-idle-timer";
+
+// export default function StudyTracker() {
+
+//   const [sessionId, setSessionId] = useState(null);
+//   const [status, setStatus] = useState(null);
+//   const [startTime, setStartTime] = useState(null);
+//   const [elapsed, setElapsed] = useState(0);
+
+//   // Restore active session on refresh
+//   useEffect(() => {
+//     api.get("/tracking/active/").then(res => {
+//       if (res.data.active) {
+//         setSessionId(res.data.session_id);
+//         setStatus(res.data.status);
+//         setStartTime(new Date(res.data.started_at));
+//       }
+//     });
+//   }, []);
+
+//   // Timer (based on backend time)
+//   useEffect(() => {
+//     if (!startTime) return;
+
+//     const interval = setInterval(() => {
+//       setElapsed(Date.now() - startTime.getTime());
+//     }, 1000);
+
+//     return () => clearInterval(interval);
+//   }, [startTime]);
+
+//   // Heartbeat
+//   useEffect(() => {
+//     if (!sessionId) return;
+
+//     const hb = setInterval(() => {
+//       api.post(`/tracking/heartbeat/${sessionId}/`);
+//     }, 60000);
+
+//     return () => clearInterval(hb);
+//   }, [sessionId]);
+
+//   // Idle detection
+//   useIdleTimer({
+//     timeout: 5 * 60 * 1000,
+//     onIdle: () => sessionId && api.post(`/tracking/idle-start/${sessionId}/`),
+//     onActive: () => sessionId && api.post(`/tracking/idle-end/${sessionId}/`)
+//   });
+
+//   const start = async () => {
+//     const res = await api.post("/tracking/start/");
+//     setSessionId(res.data.session_id);
+//     setStartTime(new Date());
+//     setStatus("ACTIVE");
+//   };
+
+//   const pause = async () => {
+//     await api.post(`/tracking/pause/${sessionId}/`);
+//     setStatus("PAUSED");
+//   };
+
+//   const resume = async () => {
+//     await api.post(`/tracking/resume/${sessionId}/`);
+//     setStatus("ACTIVE");
+//   };
+
+
+// const end = async () => {
+//   await api.post(`/tracking/end/${sessionId}/`);
+
+//   const analytics = await api.get(`/tracking/analytics/${sessionId}/`);
+//   alert(`Effective study time: ${analytics.data.effective_seconds} seconds`);
+
+//   setSessionId(null);
+//   setStartTime(null);
+//   setElapsed(0);
+//   setStatus(null);
+// };
+
+//   return (
+//     <div style={{ border: "1px solid #ccc", padding: "20px", marginBottom: "20px" }}>
+//       <h2>Study Session</h2>
+
+//       <h1>{Math.floor(elapsed / 1000)} seconds</h1>
+
+//       {!sessionId && <button onClick={start}>Start</button>}
+//       {status === "ACTIVE" && <button onClick={pause}>Pause</button>}
+//       {(status === "PAUSED" || status === "IDLE") && <button onClick={resume}>Resume</button>}
+//       {sessionId && <button onClick={end}>End</button>}
+//     </div>
+//   );
+// }
+
+import { useEffect, useState } from "react";
+import api from "../api/axios";
+import { useIdleTimer } from "react-idle-timer";
+
+export default function StudyTracker() {
+
+  const [sessionId, setSessionId] = useState(null);
+  const [status, setStatus] = useState(null);
+  const [startTime, setStartTime] = useState(null);
+  const [elapsed, setElapsed] = useState(0);
+
+  // Restore active session
+  useEffect(() => {
+    api.get("/tracking/active/").then(res => {
+      if (res.data.active) {
+        setSessionId(res.data.session_id);
+        setStatus(res.data.status);
+        setStartTime(new Date(res.data.started_at));
+      }
+    });
+  }, []);
+
+  // Timer
+  useEffect(() => {
+    if (!startTime) return;
+
+    const interval = setInterval(() => {
+      setElapsed(Date.now() - startTime.getTime());
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [startTime]);
+
+  // Heartbeat
+  useEffect(() => {
+    if (!sessionId) return;
+
+    const hb = setInterval(() => {
+      api.post(`/tracking/heartbeat/${sessionId}/`);
+    }, 60000);
+
+    return () => clearInterval(hb);
+  }, [sessionId]);
+
+  // Idle detection
+  useIdleTimer({
+    timeout: 5 * 60 * 1000,
+    onIdle: () => sessionId && api.post(`/tracking/idle-start/${sessionId}/`),
+    onActive: () => sessionId && api.post(`/tracking/idle-end/${sessionId}/`)
+  });
+
+  const start = async () => {
+    const res = await api.post("/tracking/start/");
+    setSessionId(res.data.session_id);
+    setStartTime(new Date());
+    setStatus("ACTIVE");
+  };
+
+  const pause = async () => {
+    await api.post(`/tracking/pause/${sessionId}/`);
+    setStatus("PAUSED");
+  };
+
+  const resume = async () => {
+    await api.post(`/tracking/resume/${sessionId}/`);
+    setStatus("ACTIVE");
+  };
+
+  const end = async () => {
+    await api.post(`/tracking/end/${sessionId}/`);
+    const analytics = await api.get(`/tracking/analytics/${sessionId}/`);
+    alert(`Effective study time: ${analytics.data.effective_seconds} seconds`);
+
+    setSessionId(null);
+    setStartTime(null);
+    setElapsed(0);
+    setStatus(null);
+  };
+
+  const formatTime = () => {
+    const totalSeconds = Math.floor(elapsed / 1000);
+    const hrs = Math.floor(totalSeconds / 3600);
+    const mins = Math.floor((totalSeconds % 3600) / 60);
+    const secs = totalSeconds % 60;
+
+    return `${hrs.toString().padStart(2, "0")}:${mins
+      .toString()
+      .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+  };
+
+  const statusColor = {
+    ACTIVE: "text-green-600",
+    PAUSED: "text-yellow-600",
+    IDLE: "text-orange-500"
+  };
+
+  return (
+    <div className="bg-white rounded-3xl p-8 shadow-lg border border-orange-100">
+
+      <h2 className="text-lg font-semibold text-gray-800 mb-6">
+        Study Session
+      </h2>
+
+      {/* TIMER */}
+      <div className="text-center mb-6">
+
+        <div className="text-4xl font-bold text-gray-900 tracking-wide">
+          {formatTime()}
+        </div>
+
+        {status && (
+          <p className={`text-sm mt-2 font-medium ${statusColor[status]}`}>
+            {status}
+          </p>
+        )}
+
+      </div>
+
+      {/* BUTTONS */}
+      <div className="flex flex-col gap-3">
+
+        {!sessionId && (
+          <button
+            onClick={start}
+            className="py-3 rounded-2xl bg-linear-to-r from-orange-500 to-red-500 text-white font-semibold shadow-md hover:shadow-lg hover:scale-[1.03] active:scale-[0.97] transition-all"
+          >
+            Start Session
+          </button>
+        )}
+
+        {status === "ACTIVE" && (
+          <button
+            onClick={pause}
+            className="py-3 rounded-2xl bg-yellow-400 text-white font-semibold hover:bg-yellow-500 transition"
+          >
+            Pause
+          </button>
+        )}
+
+        {(status === "PAUSED" || status === "IDLE") && (
+          <button
+            onClick={resume}
+            className="py-3 rounded-2xl bg-green-500 text-white font-semibold hover:bg-green-600 transition"
+          >
+            Resume
+          </button>
+        )}
+
+        {sessionId && (
+          <button
+            onClick={end}
+            className="py-3 rounded-2xl border border-red-300 text-red-500 font-semibold hover:bg-red-50 transition"
+          >
+            End Session
+          </button>
+        )}
+
+      </div>
+
+    </div>
+  );
+}
+
+
+================================================================================
+FILE: components\landing\FeatureSection.jsx
+================================================================================
+
+import { features } from "../../constants";
+
+const FeatureSection = () => {
+  return (
+    <div className="relative mt-20 border-b border-neutral-800 min-h-200">
+      <div className="text-center">
+        <span className="bg-neutral-900 text-orange-500 rounded-full h-6 text-sm font-medium px-2 py-1 uppercase">
+          Feature
+        </span>
+        <h2 className="text-3xl sm:text-5xl lg:text-6xl mt-10 lg:mt-20 tracking-wide">
+          Easily build{" "}
+          <span className="bg-linear-to-r from-orange-500 to-orange-800 text-transparent bg-clip-text">
+            your code
+          </span>
+        </h2>
+      </div>
+      <div className="flex flex-wrap mt-10 lg:mt-20">
+        {features.map((feature, index) => (
+          <div key={index} className="w-full sm:w-1/2 lg:w-1/3">
+            <div className="flex">
+              <div className="flex mx-6 h-10 w-10 p-2 bg-neutral-900 text-orange-700 justify-center items-center rounded-full">
+                {feature.icon}
+              </div>
+              <div>
+                <h5 className="mt-1 mb-6 text-xl">{feature.text}</h5>
+                <p className="text-md p-2 mb-20 text-neutral-500">
+                  {feature.description}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default FeatureSection;
+
+
+
+================================================================================
+FILE: components\landing\Footer.jsx
+================================================================================
+
+import { resourcesLinks, platformLinks, communityLinks } from "../../constants";
+const Footer = () => {
+  return (
+    <footer className="mt-20 border-t py-10 border-neutral-700">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+        <div>
+          <h3 className="text-md font-semibold mb-4">Resources</h3>
+          <ul className="space-y-2">
+            {resourcesLinks.map((link, index) => (
+              <li key={index}>
+                <a
+                  href={link.href}
+                  className="text-neutral-300 hover:text-white"
+                >
+                  {link.text}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h3 className="text-md font-semibold mb-4">Platform</h3>
+          <ul className="space-y-2">
+            {platformLinks.map((link, index) => (
+              <li key={index}>
+                <a
+                  href={link.href}
+                  className="text-neutral-300 hover:text-white"
+                >
+                  {link.text}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h3 className="text-md font-semibold mb-4">Community</h3>
+          <ul className="space-y-2">
+            {communityLinks.map((link, index) => (
+              <li key={index}>
+                <a
+                  href={link.href}
+                  className="text-neutral-300 hover:text-white"
+                >
+                  {link.text}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
+
+
+
+================================================================================
+FILE: components\landing\HeroSection.jsx
+================================================================================
+
+import video1 from "../../assets/video1.mp4";
+import video2 from "../../assets/video2.mp4";
+import { Link } from "react-router-dom";
+
+const HeroSection = () => {
+  return (
+    <div className="flex flex-col items-center mt-6 lg:mt-20">
+      <h1 className="text-4xl sm:text-6xl lg:text-7xl text-center tracking-wide">
+        Study
+        <span className="bg-linear-to-r from-orange-500 to-red-800 text-transparent bg-clip-text">
+          {""}
+          Buddy
+        </span>
+      </h1>
+      <p className="mt-10 text-lg text-center text-neutral-500 max-w-4xl">
+        An AI-assisted study platform that makes tracking study fun!
+      </p>
+      <div className="flex justify-center my-10">
+        <Link to="/signup"
+          className="bg-linear-to-r from-orange-500 to-orange-800 py-3 px-4 mx-3 rounded-md text-white"
+        >
+          Start for free
+        </Link>
+        <a href="#" className="py-3 px-4 mx-3 rounded-md border">
+          Learn More
+        </a>
+      </div>
+      <div className="flex mt-10 justify-center">
+        <video
+          autoPlay
+          loop
+          muted
+          className="rounded-lg w-1/2 border border-orange-700 shadow-sm shadow-orange-400 mx-2 my-4"
+        >
+          <source src={video1} type="video/mp4" />
+          Your browser does not support the playing video.
+
+        </video>
+        <video
+          autoPlay
+          loop
+          muted
+          className="rounded-lg w-1/2 border border-orange-700 shadow-sm shadow-orange-400 mx-2 my-4"
+        >
+          <source src={video2} type="video/mp4" />
+          Your browser does not support the playing video.
+        </video>
+      </div>
+    </div>
+  );
+};
+
+export default HeroSection;
+
+
+
+================================================================================
+FILE: components\landing\Navbar.jsx
+================================================================================
+
+import { Menu, X } from "lucide-react";
+import { useState } from "react";
+import logo from "../../assets/logo.png";
+import { navItems } from "../../constants";
+import { Link } from "react-router-dom";
+
+
+const Navbar = () => {
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+
+  const toggleNavbar = () => {
+    setMobileDrawerOpen(!mobileDrawerOpen);
+  };
+
+  return (
+    <nav className="sticky top-0 z-50 py-3 backdrop-blur-lg border-b border-neutral-700/80">
+      <div className="container px-4 mx-auto relative lg:text-sm">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center shrink-0">
+            <img className="h-10 w-10 mr-2" src={logo} alt="Logo" />
+            <span className="text-xl tracking-tight">StudyBuddy</span>
+          </div>
+          <ul className="hidden lg:flex ml-14 space-x-12">
+            {navItems.map((item, index) => (
+              <li key={index}>
+                <a href={item.href}>{item.label}</a>
+              </li>
+            ))}
+          </ul>
+          <div className="hidden lg:flex justify-center space-x-12 items-center">
+            {/* <a href="#" className="py-2 px-3 border rounded-md">
+              Sign In
+            </a> */}
+             <Link to="/login"
+              className="bg-linear-to-r from-orange-500 to-orange-800 py-2 px-3 rounded-md text-white">
+                Login / Sign Up 
+              </Link>
+          </div>
+          <div className="lg:hidden md:flex flex-col justify-end">
+            <button onClick={toggleNavbar}>
+              {mobileDrawerOpen ? <X /> : <Menu />}
+            </button>
+          </div>
+        </div>
+        {mobileDrawerOpen && (
+          <div className="fixed right-0 z-20 bg-neutral-900 w-full p-12 flex flex-col justify-center items-center lg:hidden">
+            <ul>
+              {navItems.map((item, index) => (
+                <li key={index} className="py-4">
+                  <a href={item.href}>{item.label}</a>
+                </li>
+              ))}
+            </ul>
+            <div className="flex space-x-6">
+              <Link to="/login" className="py-2 px-3 border rounded-md">
+                Sign In
+              </Link>
+              <Link to="/signup"
+                className="py-2 px-3 rounded-md bg-linear-to-r from-orange-500 to-orange-800"
+              >
+                Create an account
+              </Link>
+            </div>
+          </div>
+        )}
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;
+
+
+
+================================================================================
+FILE: components\landing\Pricing.jsx
+================================================================================
+
+import { CheckCircle2 } from "lucide-react";
+import { pricingOptions } from "../../constants";
+
+const Pricing = () => {
+  return (
+    <div className="mt-20">
+      <h2 className="text-3xl sm:text-5xl lg:text-6xl text-center my-8 tracking-wide">
+        Pricing
+      </h2>
+      <div className="flex flex-wrap">
+        {pricingOptions.map((option, index) => (
+          <div key={index} className="w-full sm:w-1/2 lg:w-1/3 p-2">
+            <div className="p-10 border border-neutral-700 rounded-xl">
+              <p className="text-4xl mb-8">
+                {option.title}
+                {option.title === "Pro" && (
+                  <span className="bg-linear-to-r from-orange-500 to-red-400 text-transparent bg-clip-text text-xl mb-4 ml-2">
+                    (Most Popular)
+                  </span>
+                )}
+              </p>
+              <p className="mb-8">
+                <span className="text-5xl mt-6 mr-2">{option.price}</span>
+                <span className="text-neutral-400 tracking-tight">/Month</span>
+              </p>
+              <ul>
+                {option.features.map((feature, index) => (
+                  <li key={index} className="mt-8 flex items-center">
+                    <CheckCircle2 />
+                    <span className="ml-2">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+              <a
+                href="#"
+                className="inline-flex justify-center items-center text-center w-full h-12 p-5 mt-20 tracking-tight text-xl hover:bg-orange-900 border border-orange-900 rounded-lg transition duration-200"
+              >
+                Subscribe
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Pricing;
+
+
+
+================================================================================
+FILE: components\landing\Testimonials.jsx
+================================================================================
+
+import { testimonials } from "../../constants";
+
+const Testimonials = () => {
+  return (
+    <div className="mt-20 tracking-wide">
+      <h2 className="text-3xl sm:text-5xl lg:text-6xl text-center my-10 lg:my-20">
+        What People are saying
+      </h2>
+      <div className="flex flex-wrap justify-center">
+        {testimonials.map((testimonial, index) => (
+          <div key={index} className="w-full sm:w-1/2 lg:w-1/3 px-4 py-2">
+            <div className="bg-neutral-900 rounded-md p-6 text-md border border-neutral-800 font-thin">
+              <p>{testimonial.text}</p>
+              <div className="flex mt-8 items-start">
+                <img
+                  className="w-12 h-12 mr-6 rounded-full border border-neutral-300"
+                  src={testimonial.image}
+                  alt=""
+                />
+                <div>
+                  <h6>{testimonial.user}</h6>
+                  <span className="text-sm font-normal italic text-neutral-600">
+                    {testimonial.company}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Testimonials;
+
+
+
+================================================================================
+FILE: components\landing\Workflow.jsx
+================================================================================
+
+import { CheckCircle2 } from "lucide-react";
+import codeImg from "../../assets/code.jpg";
+import { checklistItems } from "../../constants";
+
+const Workflow = () => {
+  return (
+    <div className="mt-20">
+      <h2 className="text-3xl sm:text-5xl lg:text-6xl text-center mt-6 tracking-wide">
+        Accelerate your{" "}
+        <span className="bg-linear-to-r from-orange-500 to-orange-800 text-transparent bg-clip-text">
+          coding workflow.
+        </span>
+      </h2>
+      <div className="flex flex-wrap justify-center">
+        <div className="p-2 w-full lg:w-1/2">
+          <img src={codeImg} alt="Coding" />
+        </div>
+        <div className="pt-12 w-full lg:w-1/2">
+          {checklistItems.map((item, index) => (
+            <div key={index} className="flex mb-12">
+              <div className="text-green-400 mx-6 bg-neutral-900 h-10 w-10 p-2 justify-center items-center rounded-full">
+                <CheckCircle2 />
+              </div>
+              <div>
+                <h5 className="mt-1 mb-2 text-xl">{item.title}</h5>
+                <p className="text-md text-neutral-500">{item.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Workflow;
+
+
+
+================================================================================
+FILE: constants\index.jsx
+================================================================================
+
+import { BotMessageSquare } from "lucide-react";
+import { BatteryCharging } from "lucide-react";
+import { Fingerprint } from "lucide-react";
+import { ShieldHalf } from "lucide-react";
+import { PlugZap } from "lucide-react";
+import { GlobeLock } from "lucide-react";
+
+import user1 from "../assets/profile-pictures/user1.jpg";
+import user2 from "../assets/profile-pictures/user2.jpg";
+import user3 from "../assets/profile-pictures/user3.jpg";
+import user4 from "../assets/profile-pictures/user4.jpg";
+import user5 from "../assets/profile-pictures/user5.jpg";
+import user6 from "../assets/profile-pictures/user6.jpg";
+
+export const navItems = [
+  { label: "Features", href: "#" },
+  { label: "Workflow", href: "#" },
+  { label: "Pricing", href: "#" },
+  { label: "Testimonials", href: "#" },
+];
+
+export const testimonials = [
+  {
+    user: "John Doe",
+    company: "Stellar Solutions",
+    image: user1,
+    text: "I am extremely satisfied with the services provided. The team was responsive, professional, and delivered results beyond my expectations.",
+  },
+  {
+    user: "Jane Smith",
+    company: "Blue Horizon Technologies",
+    image: user2,
+    text: "I couldn't be happier with the outcome of our project. The team's creativity and problem-solving skills were instrumental in bringing our vision to life",
+  },
+  {
+    user: "David Johnson",
+    company: "Quantum Innovations",
+    image: user3,
+    text: "Working with this company was a pleasure. Their attention to detail and commitment to excellence are commendable. I would highly recommend them to anyone looking for top-notch service.",
+  },
+  {
+    user: "Ronee Brown",
+    company: "Fusion Dynamics",
+    image: user4,
+    text: "Working with the team at XYZ Company was a game-changer for our project. Their attention to detail and innovative solutions helped us achieve our goals faster than we thought possible. We are grateful for their expertise and professionalism!",
+  },
+  {
+    user: "Michael Wilson",
+    company: "Visionary Creations",
+    image: user5,
+    text: "I am amazed by the level of professionalism and dedication shown by the team. They were able to exceed our expectations and deliver outstanding results.",
+  },
+  {
+    user: "Emily Davis",
+    company: "Synergy Systems",
+    image: user6,
+    text: "The team went above and beyond to ensure our project was a success. Their expertise and dedication are unmatched. I look forward to working with them again in the future.",
+  },
+];
+
+export const features = [
+  {
+    icon: <BotMessageSquare />,
+    text: "Drag-and-Drop Interface",
+    description:
+      "Easily design and arrange your VR environments with a user-friendly drag-and-drop interface.",
+  },
+  {
+    icon: <Fingerprint />,
+    text: "Multi-Platform Compatibility",
+    description:
+      "Build VR applications that run seamlessly across multiple platforms, including mobile, desktop, and VR headsets.",
+  },
+  {
+    icon: <ShieldHalf />,
+    text: "Built-in Templates",
+    description:
+      "Jumpstart your VR projects with a variety of built-in templates for different types of applications and environments.",
+  },
+  {
+    icon: <BatteryCharging />,
+    text: "Real-Time Preview",
+    description:
+      "Preview your VR application in real-time as you make changes, allowing for quick iterations and adjustments.",
+  },
+  {
+    icon: <PlugZap />,
+    text: "Collaboration Tools",
+    description:
+      "Work together with your team in real-time on VR projects, enabling seamless collaboration and idea sharing.",
+  },
+  {
+    icon: <GlobeLock />,
+    text: "Analytics Dashboard",
+    description:
+      "Gain valuable insights into user interactions and behavior within your VR applications with an integrated analytics dashboard.",
+  },
+];
+
+export const checklistItems = [
+  {
+    title: "Code merge made easy",
+    description:
+      "Track the performance of your VR apps and gain insights into user behavior.",
+  },
+  {
+    title: "Review code without worry",
+    description:
+      "Track the performance of your VR apps and gain insights into user behavior.",
+  },
+  {
+    title: "AI Assistance to reduce time",
+    description:
+      "Track the performance of your VR apps and gain insights into user behavior.",
+  },
+  {
+    title: "Share work in minutes",
+    description:
+      "Track the performance of your VR apps and gain insights into user behavior.",
+  },
+];
+
+export const pricingOptions = [
+  {
+    title: "Free",
+    price: "$0",
+    features: [
+      "Private board sharing",
+      "5 Gb Storage",
+      "Web Analytics",
+      "Private Mode",
+    ],
+  },
+  {
+    title: "Pro",
+    price: "$10",
+    features: [
+      "Private board sharing",
+      "10 Gb Storage",
+      "Web Analytics (Advance)",
+      "Private Mode",
+    ],
+  },
+  {
+    title: "Enterprise",
+    price: "$200",
+    features: [
+      "Private board sharing",
+      "Unlimited Storage",
+      "High Performance Network",
+      "Private Mode",
+    ],
+  },
+];
+
+export const resourcesLinks = [
+  { href: "#", text: "Getting Started" },
+  { href: "#", text: "Documentation" },
+  { href: "#", text: "Tutorials" },
+  { href: "#", text: "API Reference" },
+  { href: "#", text: "Community Forums" },
+];
+
+export const platformLinks = [
+  { href: "#", text: "Features" },
+  { href: "#", text: "Supported Devices" },
+  { href: "#", text: "System Requirements" },
+  { href: "#", text: "Downloads" },
+  { href: "#", text: "Release Notes" },
+];
+
+export const communityLinks = [
+  { href: "#", text: "Events" },
+  { href: "#", text: "Meetups" },
+  { href: "#", text: "Conferences" },
+  { href: "#", text: "Hackathons" },
+  { href: "#", text: "Jobs" },
+];
+
+
+
+================================================================================
+FILE: context\AuthContext.jsx
+================================================================================
+
+import { createContext, useContext, useState, useEffect } from "react";
+import api from "../api/axios";
+import { useNavigate } from "react-router-dom";
+
+const AuthContext = createContext();
+
+export const AuthProvider = ({ children }) => {
+
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); 
+  // prevents route flicker
+
+  //Restore session on app start
+  useEffect(() => {
+
+    const fetchUser = async () => {
+
+      const token = localStorage.getItem("access");
+
+      if (!token) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await api.get("/accounts/me/");
+        setUser(response.data);
+
+      } catch (error) {
+
+        // token invalid → clean up
+        localStorage.removeItem("access");
+        localStorage.removeItem("refresh");
+      }
+
+      setLoading(false);
+    };
+
+    fetchUser();
+
+  }, []);
+
+  // LOGIN
+  const login = async (email, password) => {
+
+    const response = await api.post("/accounts/login/", {
+      email,
+      password,
+    });
+
+    localStorage.setItem("access", response.data.access);
+    localStorage.setItem("refresh", response.data.refresh);
+
+    // immediately fetch user
+    const userResponse = await api.get("/accounts/me/");
+    setUser(userResponse.data);
+  };
+
+  
+const logout = () => {
+  localStorage.removeItem("access");
+  localStorage.removeItem("refresh");
+  setUser(null);
+};
+
+
+  return (
+    <AuthContext.Provider value={{ user, login, logout, loading }}>
+      {!loading && children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = () => useContext(AuthContext);
+
+
+
+================================================================================
+FILE: layouts\AppLayout.jsx
+================================================================================
+
+import Sidebar from "./Sidebar";
+import Topbar from "./Topbar";
+import { Outlet } from "react-router-dom";
+
+export default function AppLayout() {
+  return (
+    <div style={{ display: "flex", height: "100vh" }}>
+      <Sidebar />
+
+      <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+        <Topbar />
+
+        {/* THIS IS REQUIRED */}
+        <main style={{ flex: 1, padding: "24px", overflowY: "auto" }}>
+          <Outlet />
+        </main>
+      </div>
+    </div>
+  );
+}
+
+
+
+================================================================================
+FILE: layouts\AuthLayout.jsx
+================================================================================
+
+import { Outlet } from "react-router-dom";
+import { motion } from "framer-motion";
+
+export default function AuthLayout() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-50 to-indigo-100 p-4">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="grid lg:grid-cols-2 w-full max-w-5xl shadow-2xl rounded-3xl overflow-hidden"
+      >
+        <div className="hidden lg:flex flex-col justify-center bg-linear-to-r from-orange-500 to-orange-800 text-white p-12">
+          <h1 className="text-4xl font-semibold mb-4">StudyBuddy</h1>
+          <p className="opacity-90">
+            Learn smarter, track progress, and build powerful study habits.
+          </p>
+        </div>
+
+        <div className="bg-white p-8 lg:p-12 flex flex-col justify-center">
+          <Outlet />
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+
+
+================================================================================
+FILE: layouts\Sidebar.jsx
+================================================================================
+
+// import { NavLink } from "react-router-dom";
+
+// const navItemStyle = ({ isActive }) => ({
+//   padding: "10px 16px",
+//   textDecoration: "none",
+//   color: isActive ? "#1f2937" : "#6b7280",
+//   background: isActive ? "#e5e7eb" : "transparent",
+//   borderRadius: "6px",
+//   marginBottom: "6px",
+//   display: "block",
+//   fontWeight: 500,
+// });
+
+// export default function Sidebar() {
+//   return (
+//     <aside
+//       style={{
+//         width: "220px",
+//         padding: "16px",
+//         borderRight: "1px solid #e5e7eb",
+//         background: "#fafafa",
+//       }}
+//     >
+//       <h2 style={{ marginBottom: "24px" }}>StudyBuddy</h2>
+
+//       <nav>
+//         <NavLink to="/dashboard" style={navItemStyle}>
+//           Dashboard
+//         </NavLink>
+
+//         <NavLink to="/dashboard/study" style={navItemStyle}>
+//           Study
+//         </NavLink>
+
+//         <NavLink to="/dashboard/pdfs" style={navItemStyle}>
+//           PDFs
+//         </NavLink>
+
+//         <NavLink to="/dashboard/analytics" style={navItemStyle}>
+//           Analytics
+//         </NavLink>
+
+//         <NavLink to="/dashboard/quizzes" style={navItemStyle}>
+//           Quizzes
+//         </NavLink>
+
+//         <NavLink to="/dashboard/settings" style={navItemStyle}>
+//           Settings
+//         </NavLink>
+//       </nav>
+//     </aside>
+//   );
+// }
+
+import { NavLink } from "react-router-dom";
+
+export default function Sidebar() {
+
+  const baseClass =
+    "flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium transition-all duration-200";
+
+  const activeClass =
+    "bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-md";
+
+  const inactiveClass =
+    "text-gray-500 hover:text-gray-800 hover:bg-orange-50";
+
+  return (
+    <aside className="w-64 min-h-screen bg-white border-r border-orange-100 px-6 py-8 flex flex-col">
+
+      {/* LOGO / TITLE */}
+      <div className="mb-12">
+        <h2 className="text-xl font-semibold text-gray-800 tracking-tight">
+          StudyBuddy
+        </h2>
+        <p className="text-xs text-gray-400 mt-1">
+          Stay consistent 🔥
+        </p>
+      </div>
+
+      {/* NAVIGATION */}
+      <nav className="space-y-2">
+
+        <NavLink
+          to="/dashboard"
+          className={({ isActive }) =>
+            `${baseClass} ${isActive ? activeClass : inactiveClass}`
+          }
+        >
+          Dashboard
+        </NavLink>
+
+        <NavLink
+          to="/dashboard/study"
+          className={({ isActive }) =>
+            `${baseClass} ${isActive ? activeClass : inactiveClass}`
+          }
+        >
+          Study
+        </NavLink>
+
+        <NavLink
+          to="/dashboard/pdfs"
+          className={({ isActive }) =>
+            `${baseClass} ${isActive ? activeClass : inactiveClass}`
+          }
+        >
+          PDFs
+        </NavLink>
+
+        <NavLink
+          to="/dashboard/analytics"
+          className={({ isActive }) =>
+            `${baseClass} ${isActive ? activeClass : inactiveClass}`
+          }
+        >
+          Analytics
+        </NavLink>
+
+        <NavLink
+          to="/dashboard/quizzes"
+          className={({ isActive }) =>
+            `${baseClass} ${isActive ? activeClass : inactiveClass}`
+          }
+        >
+          Quizzes
+        </NavLink>
+
+        <NavLink
+          to="/dashboard/settings"
+          className={({ isActive }) =>
+            `${baseClass} ${isActive ? activeClass : inactiveClass}`
+          }
+        >
+          Settings
+        </NavLink>
+
+      </nav>
+
+      {/* FOOTER AREA */}
+      <div className="mt-auto pt-8 text-xs text-gray-400">
+        © {new Date().getFullYear()} StudyBuddy
+      </div>
+
+    </aside>
+  );
+}
+
+
+================================================================================
+FILE: layouts\Topbar.jsx
+================================================================================
+
+import { useAuth } from "../context/AuthContext";
+
+export default function Topbar() {
+  const { user, logout } = useAuth();
+
+  return (
+    <header
+      style={{
+        height: "56px",
+        borderBottom: "1px solid #e5e7eb",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: "0 24px",
+        background: "#ffffff",
+      }}
+    >
+      <span style={{ fontSize: "14px", color: "#6b7280" }}>
+        Welcome{user?.email ? `, ${user.email}` : ""}
+      </span>
+
+      <button
+        onClick={logout}
+        style={{
+          padding: "6px 12px",
+          borderRadius: "6px",
+          border: "1px solid #e5e7eb",
+          background: "#fff",
+          cursor: "pointer",
+        }}
+      >
+        Logout
+      </button>
+    </header>
+  );
+}
+
+
+
+================================================================================
+FILE: pages\Analytics.jsx
+================================================================================
+
+import { useEffect, useState } from "react";
+import api from "../api/axios";
+
+import {
+  LineChart,
+  Line,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer
+} from "recharts";
+import StudyHeatmap from "../components/StudyHeatMap";
+import FocusHistoryChart from "../components/FocusHistoryChart";
+import AIInsights from "../components/AIInsights";
+
+export default function Analytics() {
+
+  const [studyData, setStudyData] = useState([]);
+  const [focus, setFocus] = useState(null);
+  const [content, setContent] = useState([]);
+  const [globalStats, setGlobalStats] = useState(null);
+
+  useEffect(() => {
+
+    api.get("/analytics/study-time/")
+      .then(res => setStudyData(res.data));
+
+    api.get("/analytics/focus/")
+      .then(res => setFocus(res.data));
+
+    api.get("/analytics/content/")
+      .then(res => setContent(res.data));
+
+    api.get("/analytics/global/")
+      .then(res => setGlobalStats(res.data));
+
+  }, []);
+
+  return (
+    <div className="p-8 space-y-10">
+
+      <h1 className="text-3xl font-semibold">
+        Learning Analytics
+      </h1>
+
+      {/* Study Time Chart */}
+
+      <div className="bg-white p-6 rounded-xl shadow">
+
+        <h2 className="text-lg mb-4">
+          Weekly Study Time
+        </h2>
+
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart data={studyData}>
+            <XAxis dataKey="day" />
+            <YAxis />
+            <Tooltip />
+            <Line
+              type="monotone"
+              dataKey="minutes"
+              stroke="#f97316"
+              strokeWidth={3}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+
+      </div>
+
+
+      {/* Focus Card */}
+
+      {focus && <FocusCard focus={focus} />}
+
+
+      {/* Resource Difficulty */}
+
+      <div className="bg-white p-6 rounded-xl shadow">
+
+        <h2 className="text-lg mb-4">
+          Resource Difficulty
+        </h2>
+
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={content}>
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Bar dataKey="difficulty_percent" fill="#fb923c" />
+          </BarChart>
+        </ResponsiveContainer>
+
+      </div>
+
+
+      {/* Difficulty Explanation Cards */}
+
+      <div className="grid md:grid-cols-2 gap-6">
+
+        {content.map((item, i) => (
+          <DifficultyCard key={i} resource={item} />
+        ))}
+
+      </div>
+
+
+      {/* Global Stats */}
+
+      {globalStats && (
+
+        <div className="bg-white p-6 rounded-xl shadow">
+
+          <h2 className="text-lg mb-4">
+            Community Insights
+          </h2>
+
+          <p>
+            Average study session across learners:
+            <strong> {globalStats.avg_session} minutes</strong>
+          </p>
+
+          <p>
+            Average learner focus score:
+            <strong> {globalStats.avg_focus}</strong>
+          </p>
+
+          <p>
+            You are studying
+            <strong> {globalStats.user_vs_global}</strong>
+            compared to other learners.
+          </p>
+
+        </div>
+
+      )}
+<div className="space-y-10">
+
+  <StudyHeatmap />
+
+  <FocusHistoryChart />
+
+  <AIInsights />
+
+</div>
+    </div>
+    
+  );
+}
+
+function FocusCard({ focus }) {
+
+  return (
+
+    <div className="bg-white p-6 rounded-xl shadow">
+
+      <h2 className="text-lg mb-4">
+        Focus Insights
+      </h2>
+
+      <div className="text-3xl font-bold">
+        {focus.focus_label}
+      </div>
+
+      <div className="text-sm text-gray-500 mt-1">
+        {focus.focus_score}% focus score
+      </div>
+
+      <div className="mt-4 text-sm space-y-1">
+
+        <p>Why?</p>
+
+        <p>• Studied {focus.consistency}% of the last week</p>
+        <p>• Engagement level {focus.engagement}%</p>
+        <p>• Recency score {focus.recency}%</p>
+
+      </div>
+
+      <div className="mt-4 text-gray-500 text-sm">
+        {focus.explanation}
+      </div>
+
+    </div>
+
+  )
+
+}
+
+function DifficultyCard({ resource }) {
+
+  return (
+
+    <div className="bg-white p-6 rounded-xl shadow">
+
+      <h3 className="font-semibold">
+        {resource.name}
+      </h3>
+
+      <div className="text-lg mt-2">
+
+        Difficulty:
+        <strong> {resource.difficulty_label}</strong>
+
+        <span className="text-gray-500 ml-2">
+          ({resource.difficulty_percent}%)
+        </span>
+
+      </div>
+
+      <div className="mt-3 text-sm text-gray-500">
+
+        <p>Why?</p>
+
+        {resource.reasons.map((r, i) => (
+          <p key={i}>• {r}</p>
+        ))}
+
+      </div>
+
+    </div>
+
+  )
+
+}
+
+
+================================================================================
+FILE: pages\Dashboard.jsx
+================================================================================
+
+// import StudySummary from "../components/StudySummary";
+// import NotesPanel from "../components/NotesPanel";
+// import { useNavigate } from "react-router-dom";
+// import api from "../api/axios";
+// import { useEffect, useState } from "react";
+
+// export default function Dashboard() {
+
+//   const navigate = useNavigate();
+//   const [activeSession, setActiveSession] = useState(false);
+
+//   useEffect(() => {
+//     api.get("/tracking/active/")
+//       .then(res => setActiveSession(res.data.active))
+//       .catch(() => {});
+//   }, []);
+
+//   return (
+//     <div className="min-h-screen bg-linear-to-br from-[#fff5f2] via-white to-[#fff1ec] px-6 py-10">
+
+//       <div className="max-w-7xl mx-auto">
+
+//         {/* HEADER */}
+//         <div className="mb-12">
+//           <h1 className="text-3xl font-semibold text-gray-800">
+//             Dashboard
+//           </h1>
+//           <p className="text-sm text-gray-500 mt-2">
+//             Track your progress. Stay consistent.
+//           </p>
+//         </div>
+
+//         {/* GRID LAYOUT */}
+//         <div className="grid lg:grid-cols-3 gap-10">
+
+//           {/* LEFT SIDE */}
+//           <div className="lg:col-span-2 space-y-10">
+
+//             <StudySummary />
+
+//             {/* ACTIVE SESSION */}
+//             <div className="relative bg-white rounded-3xl p-10 shadow-lg border border-orange-100 overflow-hidden">
+
+//               <div className="absolute -top-24 -right-24 w-80 h-80 bg-linear-to-br from-orange-400 to-red-500 opacity-10 rounded-full blur-3xl"></div>
+
+//               <div className="relative flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+
+//                 <div>
+//                   <div className="inline-block px-3 py-1 text-xs font-medium bg-orange-100 text-orange-600 rounded-full mb-4">
+//                     Focus Session
+//                   </div>
+
+//                   <h3 className="text-2xl font-semibold text-gray-800 mb-3">
+//                     {activeSession
+//                       ? "You're currently studying"
+//                       : "Ready to start a focus session?"}
+//                   </h3>
+
+//                   <p className="text-gray-500 text-sm max-w-md">
+//                     {activeSession
+//                       ? "Continue your active study session and maintain your streak."
+//                       : "Start a new session and build daily consistency."}
+//                   </p>
+//                 </div>
+
+//                 <button
+//                   onClick={() => navigate("/dashboard/study/3")}
+//                   className="px-8 py-4 rounded-2xl bg-linear-to-r from-orange-500 to-red-500 text-white font-semibold shadow-md hover:shadow-xl hover:scale-[1.03] active:scale-[0.98] transition-all duration-200"
+//                 >
+//                   {activeSession ? "Continue Session" : "Start Session"}
+//                 </button>
+
+//               </div>
+//             </div>
+
+//           </div>
+//                   {/* <StudyTracker pdfId={pdfId} /> */}
+        
+//           {/* RIGHT SIDE - NOTES COMPONENT */}
+//           <NotesPanel />
+
+//         </div>
+
+//       </div>
+//     </div>
+//   );
+// }
+
+import { useNavigate } from "react-router-dom";
+
+import StudySummary from "../components/StudySummary";
+import FocusCard from "../components/FocusCard";
+import PedagogicalCard from "../components/PedagogicalCard";
+import NotesPanel from "../components/NotesPanel";
+
+export default function Dashboard() {
+  const navigate = useNavigate();
+
+  return (
+    <div className="min-h-screen bg-linear-to-br from-[#fff5f2] via-white to-[#fff1ec] px-6 py-10">
+      <div className="max-w-7xl mx-auto">
+
+        {/* ===== HEADER ===== */}
+        <div className="mb-12">
+          <h1 className="text-3xl font-semibold text-gray-800">
+            Dashboard
+          </h1>
+          <p className="text-sm text-gray-500 mt-2">
+            Understand your learning patterns. Improve steadily.
+          </p>
+        </div>
+
+        {/* ===== GRID LAYOUT ===== */}
+        <div className="grid lg:grid-cols-3 gap-10">
+
+          {/* ===== LEFT COLUMN ===== */}
+          <div className="lg:col-span-2 space-y-10">
+
+            {/* SUMMARY (existing component) */}
+            <StudySummary />
+
+            {/* AI FOCUS CARD */}
+            <FocusCard />
+
+            <PedagogicalCard />
+
+            {/* RESUME LEARNING */}
+            <div className="relative bg-white rounded-3xl p-10 shadow-lg border border-orange-100 overflow-hidden">
+
+              {/* soft background glow */}
+              <div className="absolute -top-24 -right-24 w-80 h-80 bg-linear-to-br from-orange-400 to-red-500 opacity-10 rounded-full blur-3xl"></div>
+
+              <div className="relative flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+
+                <div>
+                  <div className="inline-block px-3 py-1 text-xs font-medium bg-orange-100 text-orange-600 rounded-full mb-4">
+                    Learning
+                  </div>
+
+                  <h3 className="text-2xl font-semibold text-gray-800 mb-3">
+                    Continue learning
+                  </h3>
+
+                  <p className="text-gray-500 text-sm max-w-md">
+                    Open your study materials and pick up where you left off.
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => navigate("/dashboard/pdfs")}
+                  className="px-8 py-4 rounded-2xl bg-linear-to-r from-orange-500 to-red-500 text-white font-semibold shadow-md hover:shadow-xl hover:scale-[1.03] active:scale-[0.98] transition-all duration-200"
+                >
+                  Open PDFs
+                </button>
+
+              </div>
+            </div>
+
+          </div>
+
+          {/* ===== RIGHT COLUMN ===== */}
+          <NotesPanel />
+
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+================================================================================
+FILE: pages\Landing.jsx
+================================================================================
+
+import Navbar from "../components/landing/Navbar";
+import Testimonials from "../components/landing/Testimonials";
+import Footer from "../components/landing/Footer";
+import HeroSection from "../components/landing/HeroSection";
+import Pricing from "../components/landing/Pricing";
+import FeatureSection from "../components/landing/FeatureSection";
+import Workflow from "../components/landing/Workflow";
+
+export default function Landing() {
+  return (
+
+    <div className="min-h-screen bg-linear-to-br from-slate-50 to-indigo-100">
+
+      <Navbar />
+      <div className="max-w-7xl mx-auto pt-20 px-6">
+        <HeroSection />
+        <FeatureSection />
+        <Workflow />
+        <Pricing />
+        <Testimonials />
+        <Footer />
+      </div>
+    </div>
+    // <div className="min-h-screen bg-linear-to-br from-slate-50 to-indigo-100">
+    //   <Navbar />
+
+    //   {/* Hero Section */}
+    //   <section className="max-w-7xl mx-auto px-6 py-24 grid md:grid-cols-2 gap-12 items-center">
+    //     <div>
+    //       <h1 className="text-5xl font-bold text-slate-900 leading-tight mb-6">
+    //         Study smarter,
+    //         <br />
+    //         not harder 📚
+    //       </h1>
+
+    //       <p className="text-lg text-slate-600 mb-8">
+    //         StudyBuddy helps you track progress, build habits, and stay focused.
+    //         Designed for students who want results.
+    //       </p>
+
+    //       <div className="flex gap-4">
+    //         <a
+    //           href="/signup"
+    //           className="bg-indigo-600 text-white px-6 py-3 rounded-lg text-lg hover:bg-indigo-700 transition"
+    //         >
+    //           Get Started
+    //         </a>
+
+    //         <a
+    //           href="#about"
+    //           className="px-6 py-3 rounded-lg border text-lg text-slate-700 hover:bg-white"
+    //         >
+    //           Learn More
+    //         </a>
+    //       </div>
+    //     </div>
+
+    //     {/* Visual Placeholder */}
+    //     <div className="hidden md:flex items-center justify-center">
+    //       <div className="w-full h-72 rounded-2xl bg-indigo-200/60 flex items-center justify-center text-indigo-800 font-semibold">
+    //         Dashboard Preview
+    //       </div>
+    //     </div>
+    //   </section>
+
+    //   {/* About Section */}
+    //   <section
+    //     id="about"
+    //     className="bg-white py-20 px-6 border-t"
+    //   >
+    //     <div className="max-w-4xl mx-auto text-center">
+    //       <h2 className="text-3xl font-bold mb-4">About StudyBuddy</h2>
+    //       <p className="text-slate-600 text-lg">
+    //         StudyBuddy is built to help students stay consistent, motivated,
+    //         and organized. Simple tools. Real results.
+    //       </p>
+    //     </div>
+    //   </section>
+    // </div>
+  );
+}
+
+
+
+================================================================================
+FILE: pages\Login.jsx
+================================================================================
+
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { useState } from "react";
+import { GoogleLogin } from "@react-oauth/google";
+import api from "../api/axios";
+
+export default function Login() {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      await login(email, password);
+      navigate("/dashboard");
+    } catch (err) {
+      alert(err.response?.data);
+    }
+  };
+
+  return (
+    <>
+      
+      <h2 className="text-2xl font-semibold mt-6 text-center">Continue via a Social account</h2>
+      <p className="text-md text-center font-semibold mb-1">Login as well as sign up </p>
+      {/* GOOGLE BUTTON (next phase) */}
+      <button className="w-full h-11 mt-1 mb-8 flex items-center justify-center gap-3 border rounded-lg hover:bg-slate-50">
+        <GoogleLogin className="w-full h-11 mt-1 mb-8 flex items-center justify-center gap-3 border rounded-lg hover:bg-slate-50"
+          onSuccess={async (credentialResponse) => {
+            try {
+              const res = await api.post("/accounts/google/", {
+                id_token: credentialResponse.credential,
+              });
+
+              localStorage.setItem("access", res.data.access);
+              localStorage.setItem("refresh", res.data.refresh);
+
+              window.location.href = "/dashboard";
+            } catch (err) {
+    console.log("FULL ERROR:", err);
+    console.log("SERVER RESPONSE:", err.response);
+    console.log("DATA:", err.response?.data);
+}
+
+          }}
+          onError={() => {
+            console.log("Google Login Failed");
+          }}
+        />
+      </button>
+
+
+      <p className="text-center font-bold mb-5 mt-5">Or</p>
+      <h2 className="text-2xl font-semibold mb-4">Login to your account via password</h2>
+
+      {/* TEMP EMAIL LOGIN */}
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <input
+          type="email"
+          placeholder="Email"
+          className="w-full border rounded-lg px-4 py-2"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <input
+          type="password"
+          placeholder="Password"
+          className="w-full border rounded-lg px-4 py-2"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <button
+          type="submit"
+          className="w-full bg-orange-700 text-white py-2 rounded-lg hover:bg-orange-500"
+        >
+          Login
+        </button>
+      </form>
+      <p className="text-sm text-center mt-6">
+        Forgot Password or Social Sign in not working?{" "}
+        <Link className="text-orange-600 font-medium" to="/signup">
+          Get an OTP to login
+        </Link>
+      </p>
+    </>
+  );
+}
+
+
+
+================================================================================
+FILE: pages\PDFs.jsx
+================================================================================
+
+// // import { useEffect, useState } from "react";
+// // import { useNavigate } from "react-router-dom";
+// // import api from "../api/axios";
+
+// // export default function PDFs() {
+// //   const navigate = useNavigate();
+
+// //   // ---------- STATE ----------
+// //   const [registeredPdfs, setRegisteredPdfs] = useState([]);
+// //   const [drivePdfs, setDrivePdfs] = useState([]);
+// //   const [driveConnected, setDriveConnected] = useState(true);
+// //   const [loadingRegistered, setLoadingRegistered] = useState(true);
+// //   const [loadingDrive, setLoadingDrive] = useState(false);
+// //   const [registeringId, setRegisteringId] = useState(null);
+
+// //   // ---------- FETCH REGISTERED PDFs (ALWAYS) ----------
+// //   const fetchRegisteredPdfs = () => {
+// //     setLoadingRegistered(true);
+// //     api.get("/resources/pdfs/")
+// //       .then(res => setRegisteredPdfs(res.data))
+// //       .finally(() => setLoadingRegistered(false));
+// //   };
+
+// //   // ---------- FETCH DRIVE PDFs (OPTIONAL) ----------
+// //   const fetchDrivePdfs = () => {
+// //     setLoadingDrive(true);
+// //     api.get("/resources/drive/pdfs/")
+// //       .then(res => {
+// //         setDrivePdfs(res.data);
+// //         setDriveConnected(true);
+// //       })
+// //       .catch(err => {
+// //         if (err.response?.status === 403) {
+// //           setDriveConnected(false);
+// //         }
+// //       })
+// //       .finally(() => setLoadingDrive(false));
+// //   };
+
+// //   useEffect(() => {
+// //     fetchRegisteredPdfs();
+// //     fetchDrivePdfs(); // best-effort only
+// //   }, []);
+
+// //   // ---------- CONNECT DRIVE ----------
+// //   const connectDrive = () => {
+// //     const redirect = encodeURIComponent(
+// //       "http://localhost:5173/dashboard/pdfs"
+// //     );
+
+// //     window.location.href =
+// //       `http://127.0.0.1:8000/accounts/google/login/?process=connect&next=${redirect}`;
+// //   };
+
+// //   // ---------- REGISTER PDF ----------
+// //   const registerPdf = async (pdf) => {
+// //     setRegisteringId(pdf.id);
+
+// //     await api.post("/resources/pdfs/register/", pdf);
+// //     await fetchRegisteredPdfs();
+
+// //     setRegisteringId(null);
+// //   };
+
+// //   const isAlreadyRegistered = (drivePdfId) =>
+// //     registeredPdfs.some(p => p.drive_file_id === drivePdfId);
+
+// //   // ---------- UI ----------
+// //   return (
+// //     <div style={{ maxWidth: "1100px", margin: "0 auto", paddingBottom: "60px" }}>
+// //       <h1 style={{ marginBottom: "24px" }}>Your PDFs</h1>
+
+// //       {/* ================= REGISTERED PDFs ================= */}
+// //       <section style={{ marginBottom: "48px" }}>
+// //         <h2 style={{ marginBottom: "16px" }}>📄 Registered PDFs</h2>
+
+// //         {loadingRegistered && <p>Loading your PDFs...</p>}
+
+// //         {!loadingRegistered && registeredPdfs.length === 0 && (
+// //           <p style={{ color: "#6b7280" }}>
+// //             No PDFs registered yet. Add one from Google Drive below.
+// //           </p>
+// //         )}
+
+// //         <div style={{ display: "grid", gap: "16px" }}>
+// //           {registeredPdfs.map(pdf => (
+// //             <div
+// //               key={pdf.id}
+// //               style={{
+// //                 border: "1px solid #e5e7eb",
+// //                 borderRadius: "10px",
+// //                 padding: "16px",
+// //                 display: "flex",
+// //                 justifyContent: "space-between",
+// //                 alignItems: "center",
+// //                 background: "#fff",
+// //               }}
+// //             >
+// //               <div>
+// //                 <h3 style={{ marginBottom: "4px" }}>{pdf.name}</h3>
+// //                 <p style={{ fontSize: "13px", color: "#6b7280" }}>
+// //                   Added on {new Date(pdf.created_at).toLocaleDateString()}
+// //                 </p>
+// //               </div>
+
+// //               <button
+// //                 onClick={() => navigate(`/dashboard/study/${pdf.id}`)}
+// //                 style={{
+// //                   padding: "8px 14px",
+// //                   borderRadius: "6px",
+// //                   border: "none",
+// //                   background: "#16a34a",
+// //                   color: "#fff",
+// //                   cursor: "pointer",
+// //                 }}
+// //               >
+// //                 Study →
+// //               </button>
+// //             </div>
+// //           ))}
+// //         </div>
+// //       </section>
+
+// //       {/* ================= ADD FROM DRIVE ================= */}
+// //       <section>
+// //         <h2 style={{ marginBottom: "16px" }}>➕ Add from Google Drive</h2>
+
+// //         {!driveConnected && (
+// //           <div
+// //             style={{
+// //               border: "2px dashed #e5e7eb",
+// //               borderRadius: "10px",
+// //               padding: "32px",
+// //               textAlign: "center",
+// //             }}
+// //           >
+// //             <p style={{ marginBottom: "12px", color: "#6b7280" }}>
+// //               Connect Google Drive to add more PDFs.
+// //             </p>
+// //             <button
+// //               onClick={connectDrive}
+// //               style={{
+// //                 padding: "10px 18px",
+// //                 borderRadius: "6px",
+// //                 border: "none",
+// //                 background: "#2563eb",
+// //                 color: "#fff",
+// //                 cursor: "pointer",
+// //               }}
+// //             >
+// //               Connect Google Drive
+// //             </button>
+// //           </div>
+// //         )}
+
+// //         {driveConnected && loadingDrive && <p>Loading Drive PDFs...</p>}
+
+// //         {driveConnected && !loadingDrive && drivePdfs.length === 0 && (
+// //           <p style={{ color: "#6b7280" }}>
+// //             No PDFs found in your Google Drive.
+// //           </p>
+// //         )}
+
+// //         {driveConnected && drivePdfs.length > 0 && (
+// //           <div
+// //             style={{
+// //               border: "1px solid #e5e7eb",
+// //               borderRadius: "10px",
+// //               overflow: "hidden",
+// //             }}
+// //           >
+// //             {drivePdfs.map(pdf => {
+// //               const registered = isAlreadyRegistered(pdf.id);
+
+// //               return (
+// //                 <div
+// //                   key={pdf.id}
+// //                   style={{
+// //                     padding: "14px 16px",
+// //                     borderBottom: "1px solid #e5e7eb",
+// //                     display: "flex",
+// //                     justifyContent: "space-between",
+// //                     alignItems: "center",
+// //                     background: registered ? "#f9fafb" : "#fff",
+// //                   }}
+// //                 >
+// //                   <span
+// //                     style={{
+// //                       color: registered ? "#9ca3af" : "#111827",
+// //                     }}
+// //                   >
+// //                     {pdf.name}
+// //                   </span>
+
+// //                   {registered ? (
+// //                     <span style={{ fontSize: "13px", color: "#16a34a" }}>
+// //                       ✓ Registered
+// //                     </span>
+// //                   ) : (
+// //                     <button
+// //                       disabled={registeringId === pdf.id}
+// //                       onClick={() => registerPdf(pdf)}
+// //                       style={{
+// //                         padding: "6px 12px",
+// //                         borderRadius: "6px",
+// //                         border: "none",
+// //                         background: "#2563eb",
+// //                         color: "#fff",
+// //                         cursor: "pointer",
+// //                         opacity: registeringId === pdf.id ? 0.6 : 1,
+// //                       }}
+// //                     >
+// //                       {registeringId === pdf.id ? "Adding..." : "Register"}
+// //                     </button>
+// //                   )}
+// //                 </div>
+// //               );
+// //             })}
+// //           </div>
+// //         )}
+// //       </section>
+// //     </div>
+// //   );
+// // }
+
+// import { useEffect, useState } from "react";
+// import { useNavigate } from "react-router-dom";
+// import api from "../api/axios";
+
+// export default function PDFs() {
+//   const navigate = useNavigate();
+
+//   const [registeredPdfs, setRegisteredPdfs] = useState([]);
+//   const [drivePdfs, setDrivePdfs] = useState([]);
+//   const [driveConnected, setDriveConnected] = useState(true);
+//   const [loadingRegistered, setLoadingRegistered] = useState(true);
+//   const [loadingDrive, setLoadingDrive] = useState(false);
+//   const [registeringId, setRegisteringId] = useState(null);
+
+//   const fetchRegisteredPdfs = () => {
+//     setLoadingRegistered(true);
+//     api.get("/resources/pdfs/")
+//       .then(res => setRegisteredPdfs(res.data))
+//       .finally(() => setLoadingRegistered(false));
+//   };
+
+//   const fetchDrivePdfs = () => {
+//     setLoadingDrive(true);
+//     api.get("/resources/drive/pdfs/")
+//       .then(res => {
+//         setDrivePdfs(res.data);
+//         setDriveConnected(true);
+//       })
+//       .catch(err => {
+//         if (err.response?.status === 403) {
+//           setDriveConnected(false);
+//         }
+//       })
+//       .finally(() => setLoadingDrive(false));
+//   };
+
+//   useEffect(() => {
+//     fetchRegisteredPdfs();
+//     fetchDrivePdfs();
+//   }, []);
+
+//   const connectDrive = () => {
+//     const redirect = encodeURIComponent(
+//       "http://localhost:5173/dashboard/pdfs"
+//     );
+
+//     window.location.href =
+//       `http://127.0.0.1:8000/accounts/google/login/?process=connect&next=${redirect}`;
+//   };
+
+//   const registerPdf = async (pdf) => {
+//     setRegisteringId(pdf.id);
+//     await api.post("/resources/pdfs/register/", pdf);
+//     await fetchRegisteredPdfs();
+//     setRegisteringId(null);
+//   };
+
+//   const isAlreadyRegistered = (drivePdfId) =>
+//     registeredPdfs.some(p => p.drive_file_id === drivePdfId);
+
+//   return (
+//     <div className="min-h-screen bg-linear-to-br from-[#fff5f2] via-white to-[#fff1ec] px-6 py-12">
+
+//       <div className="max-w-6xl mx-auto">
+
+//         {/* HEADER */}
+//         <div className="mb-12">
+//           <h1 className="text-3xl font-semibold text-gray-800">
+//             Your PDFs
+//           </h1>
+//           <p className="text-sm text-gray-500 mt-2">
+//             Manage your study materials and import from Google Drive.
+//           </p>
+//         </div>
+
+//         {/* ================= REGISTERED PDFs ================= */}
+//         <section className="mb-16">
+
+//           <h2 className="text-xl font-semibold text-gray-800 mb-6">
+//             Registered PDFs
+//           </h2>
+
+//           {loadingRegistered && (
+//             <div className="grid md:grid-cols-2 gap-6">
+//               <div className="h-28 bg-orange-100 rounded-3xl animate-pulse"></div>
+//               <div className="h-28 bg-orange-100 rounded-3xl animate-pulse"></div>
+//             </div>
+//           )}
+
+//           {!loadingRegistered && registeredPdfs.length === 0 && (
+//             <div className="bg-white rounded-3xl p-10 border border-orange-100 text-center text-gray-500 shadow-sm">
+//               No PDFs registered yet.
+//             </div>
+//           )}
+
+//           <div className="grid md:grid-cols-2 gap-6">
+//             {registeredPdfs.map(pdf => (
+//               <div
+//                 key={pdf.id}
+//                 className="relative bg-white rounded-3xl p-6 shadow-md border border-orange-100 hover:shadow-xl transition overflow-hidden group"
+//               >
+//                 <div className="absolute -top-12 -right-12 w-32 h-32 bg-orange-400 opacity-10 rounded-full blur-2xl group-hover:opacity-20 transition"></div>
+
+//                 <div className="relative flex justify-between items-center">
+
+//                   <div>
+//                     <h3 className="font-semibold text-gray-800 mb-1">
+//                       {pdf.name}
+//                     </h3>
+//                     <p className="text-xs text-gray-400">
+//                       Added {new Date(pdf.created_at).toLocaleDateString()}
+//                     </p>
+//                   </div>
+
+//                   <button
+//                     onClick={() => navigate(`/dashboard/study/${pdf.id}`)}
+//                     className="px-4 py-2 rounded-xl bg-linear-to-r from-orange-500 to-red-500 text-white text-sm font-medium shadow hover:shadow-lg hover:scale-[1.05] active:scale-[0.95] transition"
+//                   >
+//                     Study →
+//                   </button>
+
+//                 </div>
+//               </div>
+//             ))}
+//           </div>
+
+//         </section>
+
+//         {/* ================= ADD FROM DRIVE ================= */}
+//         <section>
+
+//           <h2 className="text-xl font-semibold text-gray-800 mb-6">
+//             Add from Google Drive
+//           </h2>
+
+//           {!driveConnected && (
+//             <div className="bg-white rounded-3xl p-12 border border-dashed border-orange-200 text-center shadow-sm">
+//               <p className="text-gray-500 mb-6">
+//                 Connect Google Drive to import your PDFs.
+//               </p>
+//               <button
+//                 onClick={connectDrive}
+//                 className="px-6 py-3 rounded-xl bg-linear-to-r from-orange-500 to-red-500 text-white font-medium shadow hover:shadow-lg transition"
+//               >
+//                 Connect Google Drive
+//               </button>
+//             </div>
+//           )}
+
+//           {driveConnected && loadingDrive && (
+//             <div className="h-32 bg-orange-100 rounded-3xl animate-pulse"></div>
+//           )}
+
+//           {driveConnected && !loadingDrive && drivePdfs.length === 0 && (
+//             <div className="bg-white rounded-3xl p-10 border border-orange-100 text-center text-gray-500 shadow-sm">
+//               No PDFs found in your Google Drive.
+//             </div>
+//           )}
+
+//           {driveConnected && drivePdfs.length > 0 && (
+//             <div className="bg-white rounded-3xl shadow-md border border-orange-100 divide-y divide-orange-100 overflow-hidden">
+
+//               {drivePdfs.map(pdf => {
+//                 const registered = isAlreadyRegistered(pdf.id);
+
+//                 return (
+//                   <div
+//                     key={pdf.id}
+//                     className={`flex justify-between items-center px-6 py-4 transition ${
+//                       registered
+//                         ? "bg-orange-50"
+//                         : "hover:bg-orange-50/50"
+//                     }`}
+//                   >
+//                     <span className={`text-sm ${
+//                       registered ? "text-gray-400" : "text-gray-800"
+//                     }`}>
+//                       {pdf.name}
+//                     </span>
+
+//                     {registered ? (
+//                       <span className="text-xs font-medium text-green-600">
+//                         ✓ Registered
+//                       </span>
+//                     ) : (
+//                       <button
+//                         disabled={registeringId === pdf.id}
+//                         onClick={() => registerPdf(pdf)}
+//                         className="px-4 py-2 rounded-xl bg-linear-to-r from-orange-500 to-red-500 text-white text-sm font-medium shadow hover:shadow-lg transition disabled:opacity-50"
+//                       >
+//                         {registeringId === pdf.id ? "Adding..." : "Register"}
+//                       </button>
+//                     )}
+//                   </div>
+//                 );
+//               })}
+
+//             </div>
+//           )}
+
+//         </section>
+
+//       </div>
+//     </div>
+//   );
+// }
+
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../api/axios";
+
+export default function PDFs() {
+
+  const navigate = useNavigate();
+
+  const [registeredPdfs, setRegisteredPdfs] = useState([]);
+  const [drivePdfs, setDrivePdfs] = useState([]);
+
+  const [driveConnected, setDriveConnected] = useState(true);
+
+  const [loadingRegistered, setLoadingRegistered] = useState(true);
+  const [loadingDrive, setLoadingDrive] = useState(false);
+
+  const [registeringId, setRegisteringId] = useState(null);
+
+  /* ---------------- REGISTERED PDFs ---------------- */
+
+  const fetchRegisteredPdfs = () => {
+
+    setLoadingRegistered(true);
+
+    api.get("/resources/pdfs/")
+      .then(res => setRegisteredPdfs(res.data))
+      .finally(() => setLoadingRegistered(false));
+  };
+
+  /* ---------------- DRIVE PDFs ---------------- */
+
+  const fetchDrivePdfs = () => {
+
+    setLoadingDrive(true);
+
+    api.get("/resources/drive/pdfs/")
+      .then(res => {
+
+        setDrivePdfs(res.data);
+        setDriveConnected(true);
+
+      })
+      .catch(err => {
+
+        if (err.response?.status === 403) {
+          setDriveConnected(false);
+        }
+
+      })
+      .finally(() => setLoadingDrive(false));
+  };
+
+  useEffect(() => {
+
+    fetchRegisteredPdfs();
+    fetchDrivePdfs();
+
+  }, []);
+
+  /* ---------------- CONNECT DRIVE ---------------- */
+
+  const connectDrive = () => {
+
+    const redirect = encodeURIComponent(
+      "http://localhost:5173/dashboard/pdfs"
+    );
+
+    window.location.href =
+      `http://127.0.0.1:8000/accounts/google/login/?process=connect&next=${redirect}`;
+  };
+
+  /* ---------------- REGISTER PDF ---------------- */
+
+  const registerPdf = async (pdf) => {
+
+    setRegisteringId(pdf.id);
+
+    await api.post("/resources/pdfs/register/", pdf);
+
+    await fetchRegisteredPdfs();
+
+    setRegisteringId(null);
+  };
+
+  const isAlreadyRegistered = (drivePdfId) =>
+    registeredPdfs.some(p => p.drive_file_id === drivePdfId);
+
+  /* ---------------- UI ---------------- */
+
+  return (
+    <div className="min-h-screen bg-linear-to-br from-[#fff5f2] via-white to-[#fff1ec] px-6 py-12">
+
+      <div className="max-w-6xl mx-auto">
+
+        {/* HEADER */}
+
+        <div className="mb-10">
+
+          <h1 className="text-3xl font-semibold text-gray-800">
+            Your Study Materials
+          </h1>
+
+          <p className="text-sm text-gray-500 mt-2">
+            Manage your PDFs and import study resources from Google Drive.
+          </p>
+
+        </div>
+
+        {/* DRIVE STATUS BANNER */}
+
+        <div className="mb-12">
+
+          {driveConnected ? (
+
+            <div className="flex items-center justify-between bg-white border border-green-200 rounded-2xl p-4 shadow-sm">
+
+              <div className="text-sm text-green-700 font-medium">
+                ✓ Google Drive Connected
+              </div>
+
+              <button
+                onClick={connectDrive}
+                className="text-xs px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 transition"
+              >
+                Reconnect
+              </button>
+
+            </div>
+
+          ) : (
+
+            <div className="flex items-center justify-between bg-white border border-orange-200 rounded-2xl p-4 shadow-sm">
+
+              <div className="text-sm text-orange-600 font-medium">
+                Google Drive not connected
+              </div>
+
+              <button
+                onClick={connectDrive}
+                className="px-4 py-2 rounded-xl bg-linear-to-r from-orange-500 to-red-500 text-white text-sm shadow hover:shadow-lg transition"
+              >
+                Connect Drive
+              </button>
+
+            </div>
+
+          )}
+
+        </div>
+
+        {/* REGISTERED PDFs */}
+
+        <section className="mb-16">
+
+          <h2 className="text-xl font-semibold text-gray-800 mb-6">
+            Registered PDFs
+          </h2>
+
+          {loadingRegistered && (
+
+            <div className="grid md:grid-cols-2 gap-6">
+
+              <div className="h-28 bg-orange-100 rounded-3xl animate-pulse"></div>
+              <div className="h-28 bg-orange-100 rounded-3xl animate-pulse"></div>
+
+            </div>
+
+          )}
+
+          {!loadingRegistered && registeredPdfs.length === 0 && (
+
+            <div className="bg-white rounded-3xl p-10 border border-orange-100 text-center text-gray-500 shadow-sm">
+              No PDFs registered yet.
+            </div>
+
+          )}
+
+          <div className="grid md:grid-cols-2 gap-6">
+
+            {registeredPdfs.map(pdf => (
+
+              <div
+                key={pdf.id}
+                className="relative bg-white rounded-3xl p-6 shadow-md border border-orange-100 hover:shadow-xl transition overflow-hidden group"
+              >
+
+                <div className="absolute -top-12 -right-12 w-32 h-32 bg-orange-400 opacity-10 rounded-full blur-2xl group-hover:opacity-20 transition"></div>
+
+                <div className="relative flex justify-between items-center">
+
+                  <div>
+
+                    <h3 className="font-semibold text-gray-800 mb-1">
+                      {pdf.name}
+                    </h3>
+
+                    <p className="text-xs text-gray-400">
+                      Added {new Date(pdf.created_at).toLocaleDateString()}
+                    </p>
+
+                  </div>
+
+                  <button
+                    onClick={() => navigate(`/dashboard/study/${pdf.id}`)}
+                    className="px-4 py-2 rounded-xl bg-linear-to-r from-orange-500 to-red-500 text-white text-sm font-medium shadow hover:shadow-lg hover:scale-[1.05] active:scale-[0.95] transition"
+                  >
+                    Study →
+                  </button>
+
+                </div>
+
+              </div>
+
+            ))}
+
+          </div>
+
+        </section>
+
+        {/* GOOGLE DRIVE FILES */}
+
+        <section>
+
+          <h2 className="text-xl font-semibold text-gray-800 mb-6">
+            Import from Google Drive
+          </h2>
+
+          {!driveConnected && (
+
+            <div className="bg-white rounded-3xl p-12 border border-dashed border-orange-200 text-center shadow-sm">
+
+              <p className="text-gray-500 mb-6">
+                Connect Google Drive to access your study PDFs.
+              </p>
+
+              <button
+                onClick={connectDrive}
+                className="px-6 py-3 rounded-xl bg-linear-to-r from-orange-500 to-red-500 text-white font-medium shadow hover:shadow-lg transition"
+              >
+                Connect Google Drive
+              </button>
+
+            </div>
+
+          )}
+
+          {driveConnected && loadingDrive && (
+
+            <div className="h-32 bg-orange-100 rounded-3xl animate-pulse"></div>
+
+          )}
+
+          {driveConnected && !loadingDrive && drivePdfs.length === 0 && (
+
+            <div className="bg-white rounded-3xl p-10 border border-orange-100 text-center text-gray-500 shadow-sm">
+              No PDFs found in your Google Drive.
+            </div>
+
+          )}
+
+          {driveConnected && drivePdfs.length > 0 && (
+
+            <div className="bg-white rounded-3xl shadow-md border border-orange-100 divide-y divide-orange-100 overflow-hidden">
+
+              {drivePdfs.map(pdf => {
+
+                const registered = isAlreadyRegistered(pdf.id);
+
+                return (
+
+                  <div
+                    key={pdf.id}
+                    className={`flex justify-between items-center px-6 py-4 transition ${
+                      registered
+                        ? "bg-orange-50"
+                        : "hover:bg-orange-50/50"
+                    }`}
+                  >
+
+                    <span className={`text-sm ${
+                      registered ? "text-gray-400" : "text-gray-800"
+                    }`}>
+                      {pdf.name}
+                    </span>
+
+                    {registered ? (
+
+                      <span className="text-xs font-medium text-green-600">
+                        ✓ Registered
+                      </span>
+
+                    ) : (
+
+                      <button
+                        disabled={registeringId === pdf.id}
+                        onClick={() => registerPdf(pdf)}
+                        className="px-4 py-2 rounded-xl bg-linear-to-r from-orange-500 to-red-500 text-white text-sm font-medium shadow hover:shadow-lg transition disabled:opacity-50"
+                      >
+                        {registeringId === pdf.id ? "Adding..." : "Register"}
+                      </button>
+
+                    )}
+
+                  </div>
+
+                );
+
+              })}
+
+            </div>
+
+          )}
+
+        </section>
+
+      </div>
+
+    </div>
+  );
+}
+
+
+================================================================================
+FILE: pages\Signup.jsx
+================================================================================
+
+import { Link } from "react-router-dom";
+
+export default function Signup() {
+  return (
+    <>
+      <h2 className="text-2xl font-semibold mb-6">Create your account</h2>
+
+      <button className="w-full h-11 flex items-center justify-center gap-3 border rounded-lg hover:bg-slate-50">
+        Sign up with Google
+      </button>
+
+      <p className="text-sm text-center mt-6">
+        Already have an account?{" "}
+        <Link className="text-indigo-600 font-medium" to="/">
+          Login
+        </Link>
+      </p>
+    </>
+  );
+}
+
+
+
+================================================================================
+FILE: pages\Study copy.jsx
+================================================================================
+
+import { useParams, Navigate } from "react-router-dom";
+import { useState } from "react";
+import { Document, Page } from "react-pdf";
+import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf";
+
+import StudyTracker from "../components/StudyTracker.jsx";
+// import workerUrl from "pdfjs-dist/legacy/build/pdf.worker.min.js?url";
+pdfjsLib.GlobalWorkerOptions.disableWorker = true;
+// pdfjsLib.GlobalWorkerOptions.workerSrc = workerUrl;
+// pdfjsLib.GlobalWorkerOptions.workerSrc =
+  // `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+
+export default function Study() {
+  const { pdfId } = useParams();
+
+  if (!pdfId) {
+    return <Navigate to="/dashboard/pdfs" replace />;
+  }
+
+  const [numPages, setNumPages] = useState(null);
+
+  const pdfUrl = `http://127.0.0.1:8000/api/resources/pdfs/${pdfId}/stream/`;
+
+  return (
+    <div style={{ display: "flex", gap: "24px", height: "100%" }}>
+      {/* PDF Viewer */}
+      <div style={{ flex: 1, overflow: "auto" }}>
+        <Document
+          file={{
+            url: pdfUrl,
+            httpHeaders: {
+              Authorization: `Bearer ${localStorage.getItem("access")}`,
+            },
+          }}
+          onLoadSuccess={({ numPages }) => setNumPages(numPages)}
+          loading="Loading PDF..."
+        >
+          {Array.from(new Array(numPages), (_, i) => (
+            <Page key={i} pageNumber={i + 1} width={750} />
+          ))}
+        </Document>
+      </div>
+
+      {/* Tracker */}
+      <div style={{ width: "260px" }}>
+        <StudyTracker pdfId={pdfId} />
+      </div>
+    </div>
+  );
+}
+
+
+================================================================================
+FILE: pages\Study.jsx
+================================================================================
+
+import { useParams, Navigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import api from "../api/axios";
+
+import StudyTracker from "../components/StudyTracker.jsx";
+import NotesPanel from "../components/NotesPanel.jsx";
+import { logEvent } from "../utils/eventLogger";
+
+export default function Study() {
+
+  const { pdfId } = useParams();
+
+  const startTimeRef = useRef(null);
+  const lastScrollLog = useRef(0);
+
+  const [loadError, setLoadError] = useState(false);
+
+  if (!pdfId) {
+    return <Navigate to="/dashboard/pdfs" replace />;
+  }
+
+  const pdfUrl = `http://127.0.0.1:8000/api/resources/pdfs/${pdfId}/stream/`;
+
+  /* ===============================
+     CONNECT GOOGLE DRIVE
+  =============================== */
+
+  const connectDrive = () => {
+
+    const redirect = encodeURIComponent(
+      `http://localhost:5173/dashboard/study/${pdfId}`
+    );
+
+    window.location.href =
+      `http://127.0.0.1:8000/accounts/google/login/?process=connect&next=${redirect}`;
+
+  };
+
+  /* ===============================
+     RESOURCE OPEN
+  =============================== */
+
+  const handlePdfLoad = async () => {
+
+    if (startTimeRef.current) return;
+
+    startTimeRef.current = Date.now();
+
+    await logEvent({
+      event_type: "RESOURCE_OPEN",
+      resource_id: pdfId
+    });
+
+    try {
+      await api.post(`/resources/pdfs/${pdfId}/open/`);
+    } catch (err) {
+      console.error("Failed to log PDF open", err);
+    }
+
+  };
+
+  /* ===============================
+     RESOURCE CLOSE
+  =============================== */
+
+  useEffect(() => {
+
+    const handleClose = async () => {
+
+      if (!startTimeRef.current) return;
+
+      const duration =
+        Math.floor((Date.now() - startTimeRef.current) / 1000);
+
+      startTimeRef.current = null;
+
+      await logEvent({
+        event_type: "RESOURCE_CLOSE",
+        resource_id: pdfId,
+        duration: duration
+      });
+
+      try {
+        await api.post(`/resources/pdfs/${pdfId}/close/`, { duration });
+      } catch (err) {
+        console.error("Failed to log PDF close", err);
+      }
+
+    };
+
+    window.addEventListener("beforeunload", handleClose);
+
+    return () => {
+
+      handleClose();
+
+      window.removeEventListener("beforeunload", handleClose);
+
+    };
+
+  }, [pdfId]);
+
+  /* ===============================
+     TAB VISIBILITY TRACKING
+     (attention signal)
+  =============================== */
+
+  useEffect(() => {
+
+    const handleVisibility = () => {
+
+      if (document.hidden) {
+
+        logEvent({
+          event_type: "TAB_HIDDEN",
+          resource_id: pdfId,
+          tab_active: false
+        });
+
+      } else {
+
+        logEvent({
+          event_type: "TAB_VISIBLE",
+          resource_id: pdfId,
+          tab_active: true
+        });
+
+      }
+
+    };
+
+    document.addEventListener(
+      "visibilitychange",
+      handleVisibility
+    );
+
+    return () =>
+      document.removeEventListener(
+        "visibilitychange",
+        handleVisibility
+      );
+
+  }, [pdfId]);
+
+  /* ===============================
+     SCROLL DEPTH TRACKING
+     (reading engagement signal)
+  =============================== */
+
+  useEffect(() => {
+
+    const handleScroll = () => {
+
+      const now = Date.now();
+
+      /* throttle events */
+      if (now - lastScrollLog.current < 2000) return;
+
+      lastScrollLog.current = now;
+
+      const scrollTop = window.scrollY;
+
+      const height =
+        document.body.scrollHeight - window.innerHeight;
+
+      const depth = height > 0
+        ? scrollTop / height
+        : 0;
+
+      logEvent({
+        event_type: "SCROLL",
+        resource_id: pdfId,
+        scroll_depth: depth
+      });
+
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () =>
+      window.removeEventListener("scroll", handleScroll);
+
+  }, [pdfId]);
+
+  /* ===============================
+     PAGE FOCUS SIGNAL
+     =============================== */
+
+  useEffect(() => {
+
+    logEvent({
+      event_type: "PAGE_VIEW",
+      resource_id: pdfId
+    });
+
+  }, [pdfId]);
+
+  /* ===============================
+     ERROR SCREEN
+  =============================== */
+
+  if (loadError) {
+
+    return (
+
+      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-[#fff5f2] via-white to-[#fff1ec]">
+
+        <div className="bg-white p-10 rounded-3xl shadow-lg border border-orange-100 text-center">
+
+          <h2 className="text-xl font-semibold mb-4">
+            Google Drive Required
+          </h2>
+
+          <p className="text-gray-500 mb-6">
+            Connect your Google Drive to access this study material.
+          </p>
+
+          <button
+            onClick={connectDrive}
+            className="px-6 py-3 rounded-xl bg-linear-to-r from-orange-500 to-red-500 text-white font-medium shadow hover:shadow-lg transition"
+          >
+            Connect Google Drive
+          </button>
+
+        </div>
+
+      </div>
+
+    );
+
+  }
+
+  /* ===============================
+     MAIN UI
+  =============================== */
+
+  return (
+
+    <div className="min-h-screen bg-linear-to-br from-[#fff5f2] via-white to-[#fff1ec] p-6">
+
+      <div className="h-[calc(100vh-3rem)] flex gap-8 max-w-400 mx-auto">
+
+        {/* PDF VIEWER */}
+
+        <div className="flex-1 relative bg-white rounded-3xl shadow-lg border border-orange-100 overflow-hidden group">
+
+          <div className="absolute -top-20 -right-20 w-72 h-72 bg-linear-to-br from-orange-400 to-red-500 opacity-5 rounded-full blur-3xl pointer-events-none"></div>
+
+          <iframe
+            src={pdfUrl}
+            title="Study PDF"
+            className="w-full h-full border-0"
+            allow="fullscreen"
+            onLoad={handlePdfLoad}
+            onError={() => setLoadError(true)}
+          />
+
+        </div>
+
+        {/* SIDE PANEL */}
+
+        <div className="w-80 bg-white/70 backdrop-blur-xl rounded-3xl shadow-md border border-orange-100 p-6 sticky top-6 h-fit">
+
+          <StudyTracker pdfId={pdfId} />
+
+          <div className="mt-8">
+            <NotesPanel />
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  );
+
+}
+
+
+================================================================================
+FILE: routes\AdminRoute.jsx
+================================================================================
+
+import { Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+
+export default function AdminRoute({ children }) {
+  const { user } = useAuth();
+
+  if (!user || !user.is_admin) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  return children;
+}
+
+
+
+================================================================================
+FILE: routes\ProtectedRoute.jsx
+================================================================================
+
+import { Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+
+export default function ProtectedRoute({ children }) {
+
+  const { user, loading } = useAuth();
+
+  if (loading) return null; // or spinner
+
+  if (!user) {
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
+}
+
+
+
+================================================================================
+FILE: routes\PublicRoute.jsx
+================================================================================
+
+import { Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+
+export default function PublicRoute({ children }) {
+
+  const { user, loading } = useAuth();
+
+  if (loading) return null; // prevents flicker
+
+  if (user) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  return children;
+}
+
+
+
+================================================================================
+FILE: utils\eventLogger.jsx
+================================================================================
+
+import api from "../api/axios";
+
+export const logEvent = async (event) => {
+
+  try {
+    await api.post("/tracking/event/", event);
+  } catch (err) {
+    console.error("Event logging failed", err);
+  }
+
+};
+
