@@ -2,7 +2,6 @@ import { NavLink } from "react-router-dom";
 import {
   BarChart3,
   Bot,
-  BookOpen,
   FileText,
   History,
   LayoutDashboard,
@@ -16,7 +15,6 @@ const navGroups = [
     label: "Overview",
     items: [
       { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-      { to: "/dashboard/study", label: "Study", icon: BookOpen },
       { to: "/dashboard/pdfs", label: "PDFs", icon: FileText },
       { to: "/dashboard/analytics", label: "Analytics", icon: BarChart3 },
     ],
@@ -52,21 +50,6 @@ export default function Sidebar() {
           <div>
             <h2 className="text-lg font-semibold tracking-tight text-slate-950">StudyBuddy</h2>
             <p className="text-xs text-slate-500">A focused study workspace</p>
-          </div>
-        </div>
-
-        <div className="mt-4 grid grid-cols-3 gap-3">
-          <div className="rounded-2xl bg-white px-3 py-2 text-center shadow-sm ring-1 ring-slate-100">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-slate-400">Focus</p>
-            <p className="mt-1 text-sm font-semibold text-slate-950">92%</p>
-          </div>
-          <div className="rounded-2xl bg-white px-3 py-2 text-center shadow-sm ring-1 ring-slate-100">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-slate-400">Sessions</p>
-            <p className="mt-1 text-sm font-semibold text-slate-950">18</p>
-          </div>
-          <div className="rounded-2xl bg-white px-3 py-2 text-center shadow-sm ring-1 ring-slate-100">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-slate-400">Today</p>
-            <p className="mt-1 text-sm font-semibold text-slate-950">3h 42m</p>
           </div>
         </div>
       </div>
@@ -114,7 +97,7 @@ export default function Sidebar() {
             Jump back into your latest session or open a new study block from the sidebar.
           </p>
         </div>
-        <div className="mt-4 text-center text-xs text-slate-400">© {new Date().getFullYear()} StudyBuddy</div>
+        <div className="mt-4 text-center text-xs text-slate-400">{new Date().getFullYear()} StudyBuddy</div>
       </div>
     </aside>
   );
